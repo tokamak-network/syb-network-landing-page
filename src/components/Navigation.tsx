@@ -13,15 +13,17 @@ export default function Navigation() {
 
               if (scrollTop > heroHeight && !isScrolled) {
           // Scrolled past hero - keep pill shape but with more opacity
-          if (navbarPill) {
+          if (navbarPill && navbarPill.parentElement) {
             navbarPill.className = 'navbar-pill bg-white/90 backdrop-blur-md border border-white/20 rounded-full px-12 py-4 shadow-lg hover:shadow-xl transition-all duration-300 w-full max-w-7xl';
-            navbarPill.parentElement.parentElement.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8';
+            if (navbarPill.parentElement.parentElement) {
+              navbarPill.parentElement.parentElement.className = 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8';
+            }
             navbarPill.parentElement.className = 'flex justify-center pt-4';
           }
           isScrolled = true;
         } else if (scrollTop <= heroHeight && isScrolled) {
           // In hero section - floating pill
-          if (navbarPill) {
+          if (navbarPill && navbarPill.parentElement) {
             navbarPill.className = 'navbar-pill bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-12 py-4 shadow-lg hover:shadow-xl transition-all duration-300 w-full max-w-7xl';
             navbarPill.parentElement.className = 'flex justify-center pt-4';
           }
