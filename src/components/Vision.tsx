@@ -1,6 +1,7 @@
 'use client';
 
 import useScrollAnimation, { useStaggeredScrollAnimation } from '../hooks/useScrollAnimation';
+import { Target, BarChart3, Users, Zap } from 'lucide-react';
 
 export default function Vision() {
   const headerRef = useScrollAnimation('animate-fade-in-up', 0);
@@ -50,7 +51,7 @@ export default function Vision() {
           </div>
           <div ref={contentRightRef} className="bg-white/80 backdrop-blur-lg p-8 rounded-2xl border border-blue-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl mb-6 flex items-center justify-center shadow-md">
-              <div className="w-8 h-8 bg-white rounded-xl"></div>
+              <Target className="w-8 h-8 text-white" />
             </div>
             <h4 className="text-xl font-bold text-gray-900 mb-4">Our Mission</h4>
             <p className="text-gray-700 leading-relaxed">
@@ -63,21 +64,21 @@ export default function Vision() {
         <div ref={cardsRef} className="grid md:grid-cols-3 gap-8">
           <div className="scroll-stagger-item bg-white/80 backdrop-blur-lg p-8 rounded-2xl border border-blue-200/50 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl mx-auto mb-6 flex items-center justify-center shadow-md">
-              <div className="w-6 h-6 bg-white rounded-lg"></div>
+              <BarChart3 className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">A Fairer Web3 Economy</h3>
             <p className="text-gray-700 text-center leading-relaxed">Creating equal opportunities and preventing exploitation through verifiable identity systems.</p>
           </div>
           <div className="scroll-stagger-item bg-white/80 backdrop-blur-lg p-8 rounded-2xl border border-blue-200/50 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-cyan-600 rounded-xl mx-auto mb-6 flex items-center justify-center shadow-md">
-              <div className="w-6 h-6 bg-white rounded-lg"></div>
+              <Users className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Trustworthy Digital Society</h3>
             <p className="text-gray-700 text-center leading-relaxed">Building authentic connections and interactions based on cryptographic proof and transparency.</p>
           </div>
           <div className="scroll-stagger-item bg-white/80 backdrop-blur-lg p-8 rounded-2xl border border-blue-200/50 shadow-lg hover:shadow-xl hover:-translate-y-2 transition-all duration-300">
             <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl mx-auto mb-6 flex items-center justify-center shadow-md">
-              <div className="w-6 h-6 bg-white rounded-lg"></div>
+              <Zap className="w-6 h-6 text-white" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4 text-center">Verifiable Decentralized Future</h3>
             <p className="text-gray-700 text-center leading-relaxed">Ensuring transparency, accountability, and trust through advanced cryptographic technologies.</p>

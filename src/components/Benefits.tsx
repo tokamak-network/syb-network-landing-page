@@ -1,6 +1,7 @@
 'use client';
 
 import useScrollAnimation, { useStaggeredScrollAnimation } from '../hooks/useScrollAnimation';
+import { Cpu, Users, Layers } from 'lucide-react';
 
 export default function Benefits() {
   const headerRef = useScrollAnimation('animate-fade-in-up', 0);
@@ -35,7 +36,7 @@ export default function Benefits() {
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="flex items-start space-x-4">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                <div className="w-4 h-4 bg-white rounded-full"></div>
+                <Cpu className="w-4 h-4 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">Fully Decentralized</h3>
@@ -47,7 +48,7 @@ export default function Benefits() {
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="flex items-start space-x-4">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                <div className="w-4 h-4 bg-white rounded-full"></div>
+                <Users className="w-4 h-4 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">Fair Participation</h3>
@@ -59,7 +60,7 @@ export default function Benefits() {
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="flex items-start space-x-4">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                <div className="w-4 h-4 bg-white rounded-full"></div>
+                <Layers className="w-4 h-4 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-3">Scalable & Secure</h3>

@@ -1,6 +1,7 @@
 'use client';
 
 import useScrollAnimation, { useStaggeredScrollAnimation } from '../hooks/useScrollAnimation';
+import { Shield, UserCheck, Zap } from 'lucide-react';
 
 export default function About() {
   const headerRef = useScrollAnimation('animate-fade-in-up', 0);
@@ -36,7 +37,7 @@ export default function About() {
           </div>
           <div ref={rightContentRef} className="bg-blue-50 p-8 rounded-2xl border border-blue-100">
             <div className="w-16 h-16 bg-blue-600 rounded-2xl mb-6 flex items-center justify-center">
-              <div className="w-8 h-8 bg-white rounded-xl"></div>
+              <Shield className="w-8 h-8 text-white" />
             </div>
             <h4 className="text-xl font-bold text-gray-900 mb-4">Our Solution</h4>
             <p className="text-gray-600 leading-relaxed">
@@ -49,7 +50,7 @@ export default function About() {
         <div ref={cardsRef} className="grid md:grid-cols-3 gap-8">
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-12 h-12 bg-blue-100 rounded-lg mb-6 flex items-center justify-center">
-              <div className="w-6 h-6 bg-blue-600 rounded-full"></div>
+              <UserCheck className="w-6 h-6 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Verifiable Uniqueness</h3>
             <p className="text-gray-600 leading-relaxed">Every account receives a cryptographically verifiable uniqueness score that proves authentic participation without revealing personal information.</p>
@@ -57,7 +58,7 @@ export default function About() {
 
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-12 h-12 bg-blue-100 rounded-lg mb-6 flex items-center justify-center">
-              <div className="w-6 h-6 bg-blue-600 rounded"></div>
+              <Shield className="w-6 h-6 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Sybil Resistance</h3>
             <p className="text-gray-600 leading-relaxed">Advanced algorithms ensure one person equals one identity, effectively preventing fake accounts and manipulation attacks.</p>
@@ -65,7 +66,7 @@ export default function About() {
 
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-12 h-12 bg-blue-100 rounded-lg mb-6 flex items-center justify-center">
-              <div className="w-6 h-6 bg-white rounded-xl border-2 border-blue-600"></div>
+              <Zap className="w-6 h-6 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Trustless Architecture</h3>
             <p className="text-gray-600 leading-relaxed">All computations are verified on-chain using zero-knowledge proofs, ensuring complete transparency and decentralization.</p>

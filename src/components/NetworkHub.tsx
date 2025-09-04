@@ -1,6 +1,7 @@
 'use client';
 
 import useScrollAnimation from '../hooks/useScrollAnimation';
+import { Network, Shield, Database, Zap } from 'lucide-react';
 
 export default function NetworkHub() {
   const hubRef = useScrollAnimation('animate-fade-in-up', 0);

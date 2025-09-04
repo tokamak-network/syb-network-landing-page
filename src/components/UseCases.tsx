@@ -1,6 +1,7 @@
 'use client';
 
 import useScrollAnimation, { useStaggeredScrollAnimation } from '../hooks/useScrollAnimation';
+import { Vote, Gamepad2, Gift, Building, Users } from 'lucide-react';
 
 export default function UseCases() {
   const headerRef = useScrollAnimation('animate-fade-in-up', 0);
@@ -23,7 +24,7 @@ export default function UseCases() {
         <div ref={cardsRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl mb-6 flex items-center justify-center">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg"></div>
+              <Vote className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Governance</h3>
             <p className="text-gray-600 leading-relaxed">Fair one-person-one-vote systems in DAOs and communities, ensuring democratic participation.</p>
@@ -31,7 +32,7 @@ export default function UseCases() {
 
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl mb-6 flex items-center justify-center">
-              <div className="w-8 h-8 bg-blue-600 rounded-full"></div>
+              <Users className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Social Networks</h3>
             <p className="text-gray-600 leading-relaxed">Verified interactions, fewer bots, and authentic communities built on trust.</p>
@@ -39,7 +40,7 @@ export default function UseCases() {
 
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl mb-6 flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-blue-600 rounded-lg bg-white"></div>
+              <Gamepad2 className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Gaming & Metaverse</h3>
             <p className="text-gray-600 leading-relaxed">Stops bot exploitation and ensures real player fairness in virtual economies.</p>
@@ -47,9 +48,7 @@ export default function UseCases() {
 
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl mb-6 flex items-center justify-center">
-              <div className="w-8 h-8 bg-white rounded-lg border-2 border-blue-600 flex items-center justify-center">
-                <div className="w-3 h-3 bg-blue-600 rounded"></div>
-              </div>
+              <Gift className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Airdrops & Rewards</h3>
             <p className="text-gray-600 leading-relaxed">Rewards distribution to verified, unique participants only, preventing fraud.</p>
@@ -58,12 +57,7 @@ export default function UseCases() {
           <div className="bg-white p-8 rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300 lg:col-span-2">
             <div className="flex items-start space-x-6">
               <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center flex-shrink-0">
-                <div className="grid grid-cols-2 gap-1 w-6 h-6">
-                  <div className="bg-blue-600 rounded-sm"></div>
-                  <div className="bg-blue-600 rounded-sm"></div>
-                  <div className="bg-blue-600 rounded-sm"></div>
-                  <div className="bg-blue-600 rounded-sm"></div>
-                </div>
+                <Building className="w-8 h-8 text-blue-600" />
               </div>
               <div>
                 <h3 className="text-xl font-bold text-gray-900 mb-4">Compliance & Enterprise</h3>

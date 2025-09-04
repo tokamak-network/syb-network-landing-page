@@ -52,10 +52,16 @@ export default function Navigation() {
             <div className="flex items-center justify-between">
               {/* Logo */}
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
-                  <div className="w-3 h-3 bg-white rounded-full"></div>
-                </div>
-                <span className="text-lg font-bold text-gray-900 hidden sm:block">SYB</span>
+                <button 
+                  onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center hover:scale-105 hover:bg-blue-700 transition-all duration-300 shadow-sm cursor-pointer"
+                >
+                  <img 
+                    src="/assets/brand/syb-logo-dark.png" 
+                    alt="SYB Network" 
+                    className="h-8 w-auto"
+                  />
+                </button>
               </div>
 
               {          /* Desktop Navigation Links - Clean Style */}
