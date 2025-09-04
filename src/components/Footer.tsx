@@ -29,9 +29,11 @@ export default function Footer() {
           {/* Enhanced Brand Section */}
           <div ref={brandRef} className="lg:col-span-2">
             <div className="flex items-center mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl flex items-center justify-center mr-4 shadow-lg">
-                <div className="w-6 h-6 bg-white rounded-full"></div>
-              </div>
+              <img 
+                src="/assets/brand/syb-logo-dark.png" 
+                alt="SYB Network" 
+                className="h-12 w-auto mr-4"
+              />
               <h3 className="text-2xl font-bold tracking-tight">SYB Network</h3>
             </div>
             <p className="text-lg text-blue-300 mb-4 font-medium">
@@ -111,8 +113,6 @@ export default function Footer() {
             <div className="flex flex-wrap justify-center lg:justify-end space-x-6">
               <a href="#" className="text-gray-400 hover:text-blue-300 transition-colors duration-300 text-sm">Privacy Policy</a>
               <a href="#" className="text-gray-400 hover:text-blue-300 transition-colors duration-300 text-sm">Terms of Service</a>
-              <a href="#" className="text-gray-400 hover:text-blue-300 transition-colors duration-300 text-sm">Security</a>
-              <a href="#" className="text-gray-400 hover:text-blue-300 transition-colors duration-300 text-sm">Contact</a>
             </div>
           </div>
         </div>

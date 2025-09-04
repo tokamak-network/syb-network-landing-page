@@ -1,6 +1,7 @@
 'use client';
 
 import useScrollAnimation, { useStaggeredScrollAnimation } from '../hooks/useScrollAnimation';
+import { Network, Star, Database } from 'lucide-react';
 
 export default function HowItWorks() {
   const headerRef = useScrollAnimation('animate-fade-in-up', 0);
@@ -40,7 +41,7 @@ export default function HowItWorks() {
 
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl mb-6 flex items-center justify-center">
-              <div className="w-8 h-8 bg-blue-600 rounded-full"></div>
+              <Network className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Web-of-Trust Mechanism</h3>
             <ul className="space-y-3 text-gray-600">
@@ -57,7 +58,7 @@ export default function HowItWorks() {
 
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl mb-6 flex items-center justify-center">
-              <div className="w-8 h-8 border-2 border-blue-600 rounded-lg bg-white"></div>
+              <Star className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">Uniqueness Scoring System</h3>
             <ul className="space-y-3 text-gray-600">
@@ -74,9 +75,7 @@ export default function HowItWorks() {
 
           <div className="scroll-stagger-item bg-white p-8 rounded-2xl border border-blue-100 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
             <div className="w-16 h-16 bg-blue-100 rounded-2xl mb-6 flex items-center justify-center">
-              <div className="w-8 h-8 bg-white rounded-lg border-2 border-blue-600 flex items-center justify-center">
-                <div className="w-3 h-3 bg-blue-600 rounded"></div>
-              </div>
+              <Database className="w-8 h-8 text-blue-600" />
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-4">zk-Rollup Infrastructure</h3>
             <ul className="space-y-3 text-gray-600">
