@@ -67,7 +67,7 @@ export default function Navigation() {
 
   return (
     <>
-      <nav id="navbar" className="fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+      <nav id="navbar" className="fixed top-0 left-0 right-0 z-40 transition-all duration-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Unique Floating Pill Design */}
           <div className="flex justify-center pt-2 sm:pt-4">
@@ -89,31 +89,31 @@ export default function Navigation() {
 
                 {/* Desktop Navigation Links - Clean Style */}
                 <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-                  <a href="#about" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                  <a href="/#about" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Discovery
                   </a>
-                  <a href="#how-it-works" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                  <a href="/#how-it-works" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Protocol
                   </a>
-                  <a href="#benefits" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                  <a href="/#benefits" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Advantages
                   </a>
-                  <a href="#use-cases" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                  <a href="/#use-cases" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Applications
                   </a>
-                  <a href="#vision" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                  <a href="/#vision" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Future
                   </a>
-                  <a href="#connect" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                  <a href="/#connect" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Community
                   </a>
                 </div>
 
                 {/* Desktop CTA Button */}
                 <div className="hidden lg:block">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 xl:px-5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg text-sm">
-                    Get Started
-                  </button>
+                  <a href="/explorer" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 xl:px-5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg text-sm">
+                    Network Explorer
+                  </a>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -152,42 +152,42 @@ export default function Navigation() {
           <div className="lg:hidden fixed inset-0 top-20 sm:top-24 bg-white/95 backdrop-blur-md z-40">
             <div className="flex flex-col items-center justify-start pt-12 space-y-6">
               <a 
-                href="#about" 
+                href="/#about" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
                 Discovery
               </a>
               <a 
-                href="#how-it-works" 
+                href="/#how-it-works" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
                 Protocol
               </a>
               <a 
-                href="#benefits" 
+                href="/#benefits" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
                 Advantages
               </a>
               <a 
-                href="#use-cases" 
+                href="/#use-cases" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
                 Applications
               </a>
               <a 
-                href="#vision" 
+                href="/#vision" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
                 Future
               </a>
               <a 
-                href="#connect" 
+                href="/#connect" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
@@ -196,12 +196,13 @@ export default function Navigation() {
               
               {/* Mobile CTA Button */}
               <div className="pt-4">
-                <button 
+                <a 
+                  href="/explorer"
                   onClick={closeMobileMenu}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 >
-                  Get Started
-                </button>
+                  Network Explorer
+                </a>
               </div>
             </div>
           </div>
