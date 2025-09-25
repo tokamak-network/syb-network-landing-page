@@ -111,9 +111,9 @@ export default function Navigation() {
 
                 {/* Desktop CTA Button */}
                 <div className="hidden lg:block">
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 xl:px-5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg text-sm">
-                    Get Started
-                  </button>
+                  <a href="https://explorer.syb.network" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 xl:px-5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg text-sm">
+                    Get Explorer
+                  </a>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -196,12 +196,15 @@ export default function Navigation() {
               
               {/* Mobile CTA Button */}
               <div className="pt-4">
-                <button 
+                <a 
+                  href="https://explorer.syb.network" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
                   onClick={closeMobileMenu}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 >
-                  Get Started
-                </button>
+                  Explorer
+                </a>
               </div>
             </div>
           </div>

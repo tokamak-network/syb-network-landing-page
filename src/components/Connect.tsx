@@ -38,12 +38,12 @@ export default function Connect() {
                 </div>
                 <h4 className="text-lg font-bold text-gray-900 mb-2">Documentation</h4>
                 <p className="text-gray-600 text-sm mb-4">Technical specs, integration guides, and API references.</p>
-                <button className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
+                <a href="https://www.notion.so/tokamak/Tokamak-Sybil-Resistance-Overview-03cc941223844f30ba4473e98b1275a7?pvs=4" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
                   Read Docs →
-                </button>
+                </a>
               </div>
               
-              <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
+              {/* <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
                   <Book className="w-6 h-6 text-blue-600" />
                 </div>
@@ -52,7 +52,7 @@ export default function Connect() {
                 <button className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
                   Get Started →
                 </button>
-              </div>
+              </div> */}
               
               <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
@@ -65,7 +65,7 @@ export default function Connect() {
                 </button>
               </div>
               
-              <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
+              {/* <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
                   <FileText className="w-6 h-6 text-blue-600" />
                 </div>
@@ -74,7 +74,7 @@ export default function Connect() {
                 <button className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
                   View Research →
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
           
@@ -90,14 +90,14 @@ export default function Connect() {
                 <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
                   <MessageSquare className="w-6 h-6 text-blue-600" />
                 </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-2">Developer Discord</h4>
+                <h4 className="text-lg font-bold text-gray-900 mb-2">Telegram Community</h4>
                 <p className="text-gray-600 mb-4">Connect with developers, get support, and share ideas.</p>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
-                  Join Community
-                </button>
+                <a href="https://t.me/+HOQmpdZqr4gyZjc8" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 inline-block">
+                  Join Telegram
+                </a>
               </div>
               
-              <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
+              {/* <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
                   <HelpCircle className="w-6 h-6 text-blue-600" />
                 </div>
@@ -106,7 +106,7 @@ export default function Connect() {
                 <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
                   Get Support
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
@@ -119,12 +119,12 @@ export default function Connect() {
               with verifiable identity at their core.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105">
+              <a href="https://www.notion.so/tokamak/Tokamak-Sybil-Resistance-Overview-03cc941223844f30ba4473e98b1275a7?pvs=4" target="_blank" rel="noopener noreferrer" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105">
                 Explore Documentation
-              </button>
-              <button className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300">
-                Join Discord Community
-              </button>
+              </a>
+              <a href="https://t.me/+HOQmpdZqr4gyZjc8" target="_blank" rel="noopener noreferrer" className="border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 inline-block">
+                Join Telegram Community
+              </a>
             </div>
           </div>
         </div>
