@@ -177,7 +177,7 @@ export default function NetworkGraph({
     cyRef.current = cy;
 
     // Add click handler
-    cy.on('tap', 'node', (event) => {
+    cy.on('tap', 'node', (event: any) => {
       const node = event.target;
       const userId = node.data('id');
       if (onNodeClick) {
@@ -186,7 +186,7 @@ export default function NetworkGraph({
     });
 
     // Add hover tooltips
-    cy.on('mouseover', 'node', (event) => {
+    cy.on('mouseover', 'node', (event: any) => {
       const node = event.target;
       const data = node.data();
       node.style({
@@ -194,7 +194,7 @@ export default function NetworkGraph({
       });
     });
 
-    cy.on('mouseout', 'node', (event) => {
+    cy.on('mouseout', 'node', (event: any) => {
       const node = event.target;
       node.style({
         'label': node.data('label')
