@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@apollo/client/react';
 import { GET_NETWORK_GRAPH, GET_USER_DETAILS } from '@/lib/graphql-queries';
 import { NetworkGraphData, UserDetails } from '@/types/network';
