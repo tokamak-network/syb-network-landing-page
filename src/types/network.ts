@@ -27,6 +27,9 @@ export interface Vouch {
   rankTo?: string;
   scoreFrom?: string;
   scoreTo?: string;
+  transactionHash?: string;
+  blockNumber?: string;
+  isBootstrapVouch?: boolean;
 }
 
 export interface Network {

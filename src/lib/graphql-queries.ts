@@ -134,3 +134,29 @@ export const SEARCH_USERS = gql`
   }
 `;
 
+// Get all transactions (vouches) for the transactions tab
+export const GET_TRANSACTIONS = gql`
+  query GetTransactions($first: Int = 100, $skip: Int = 0) {
+    vouches(first: $first, skip: $skip, orderBy: blockTimestamp, orderDirection: desc) {
+      id
+      from {
+        id
+        rank
+        isBootstrapNode
+      }
+      to {
+        id
+        rank
+        isBootstrapNode
+      }
+      transactionHash
+      blockNumber
+      blockTimestamp
+      rankTo
+      scoreFrom
+      scoreTo
+      isBootstrapVouch
+    }
+  }
+`;
+
