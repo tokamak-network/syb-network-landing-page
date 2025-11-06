@@ -200,7 +200,7 @@ export default function ExplorerPage() {
               Network <span className="text-blue-600">Explorer</span>
             </h1>
             <p className="text-gray-600 text-[10px] sm:text-xs lg:text-sm">
-              Visualize and explore the SybVouch trust network
+              Visualize and explore the SYB Tokamak Network Trust Graph and Transactions
             </p>
           </div>
 
