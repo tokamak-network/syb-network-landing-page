@@ -39,20 +39,32 @@ export default function NetworkGraph({
 
     setIsLoading(true);
 
-    // Helper function to calculate node size based on score
-    const getNodeSize = (score: string): number => {
+    // Find min and max scores for normalization
+    const scores = users.map(u => parseFloat(u.score));
+    const minScore = Math.min(...scores);
+    const maxScore = Math.max(...scores);
+
+    // Helper function to normalize score to 0-100
+    const normalizeScore = (score: string): number => {
       const scoreNum = parseFloat(score);
-      return Math.max(20, Math.min(60, 20 + Math.log(scoreNum + 1) * 5));
+      if (maxScore === minScore) return 50; // Default to middle if all scores are the same
+      return ((scoreNum - minScore) / (maxScore - minScore)) * 100;
     };
 
-    // Helper function to get color based on rank
-    // Lower rank number = BETTER (rank 1 is best, higher numbers are worse)
-    const getRankColor = (rank: string): string => {
-      const rankNum = parseInt(rank);
-      if (rankNum <= 2) return '#10b981'; // Green for TOP ranks (1-2) - BEST! (Bootstrap is rank 1)
-      if (rankNum <= 5) return '#3b82f6'; // Blue for good ranks (3-5)
-      if (rankNum <= 10) return '#f59e0b'; // Orange for medium ranks (6-10)
-      return '#ef4444'; // Red for poor ranks (11+) - needs improvement
+    // Helper function to calculate node size based on normalized score
+    const getNodeSize = (score: string): number => {
+      const normalized = normalizeScore(score);
+      return Math.max(20, Math.min(60, 20 + (normalized / 100) * 40));
+    };
+
+    // Helper function to get color based on normalized score (0-100)
+    // Higher score = BETTER trust
+    const getScoreColor = (score: string): string => {
+      const normalized = normalizeScore(score);
+      if (normalized >= 80) return '#10b981'; // Green for very high scores (80-100)
+      if (normalized >= 60) return '#3b82f6'; // Blue for high scores (60-80)
+      if (normalized >= 40) return '#f59e0b'; // Orange for medium scores (40-60)
+      return '#ef4444'; // Red for lower scores (0-40)
     };
 
     // Prepare nodes
@@ -61,13 +73,12 @@ export default function NetworkGraph({
         id: user.id,
         label: `${user.id.substring(0, 6)}...${user.id.substring(38)}`,
         fullAddress: user.id,
-        rank: user.rank,
         score: user.score,
         isBootstrapNode: user.isBootstrapNode,
         inCount: user.inCount,
         outCount: user.outCount,
         size: getNodeSize(user.score),
-        color: getRankColor(user.rank)
+        color: getScoreColor(user.score)
       }
     }));
 
@@ -189,8 +200,9 @@ export default function NetworkGraph({
     cy.on('mouseover', 'node', (event: any) => {
       const node = event.target;
       const data = node.data();
+      const normalized = normalizeScore(data.score);
       node.style({
-        'label': `${data.fullAddress}\nRank: ${data.rank} | Score: ${parseFloat(data.score).toFixed(2)}\nIn: ${data.inCount} | Out: ${data.outCount}`
+        'label': `${data.fullAddress}\nScore: ${normalized.toFixed(1)}/100\nIn: ${data.inCount} | Out: ${data.outCount}`
       });
     });
 
@@ -213,49 +225,43 @@ export default function NetworkGraph({
 
   // Update selection highlight
   useEffect(() => {
-    if (!isMounted || !cyRef.current || !selectedNode) return;
+    if (!isMounted || !cyRef.current) return;
 
     const cy = cyRef.current;
     
-    // Remove all selections and highlights
-    cy.elements().removeClass('highlighted');
-    cy.nodes().unselect();
-
-    // Select the clicked node
-    const node = cy.getElementById(selectedNode);
-    if (node.length > 0) {
-      node.select();
-
-      // Highlight neighbors
-      const neighbors = node.neighborhood();
-      neighbors.addClass('highlighted');
-
-      // Get current zoom level
-      const currentZoom = cy.zoom();
-      
-      // Calculate target zoom (zoom in more if already zoomed)
-      const targetZoom = Math.min(currentZoom * 1.5, 2.5); // Max 2.5x zoom
-
-      // Fit the selected node and its neighbors in view with padding
-      cy.animate({
-        fit: {
-          eles: node.union(neighbors),
-          padding: 100
-        },
-        duration: 600,
-        easing: 'ease-in-out-cubic'
-      });
-
-      // Then zoom in a bit more to focus on the node
-      setTimeout(() => {
-        cy.animate({
-          center: { eles: node },
-          zoom: targetZoom,
-          duration: 400,
-          easing: 'ease-out'
-        });
-      }, 650);
+    // If no node is selected, clear all highlights
+    if (!selectedNode) {
+      cy.elements().removeClass('highlighted');
+      cy.nodes().unselect();
+      cy.style().update();
+      return;
     }
+    
+    // Function to highlight the selected node and its connections
+    const highlightNode = () => {
+      // Remove all selections and highlights
+      cy.elements().removeClass('highlighted');
+      cy.nodes().unselect();
+
+      // Select the clicked node
+      const node = cy.getElementById(selectedNode);
+      if (node.length > 0) {
+        node.select();
+
+        // Highlight neighbors (connected nodes and edges)
+        const neighbors = node.neighborhood();
+        neighbors.addClass('highlighted');
+        
+        // Force immediate style update
+        cy.style().update();
+        
+        // No zoom animation - keep graph static
+      }
+    };
+
+    // Execute immediately and ensure it happens after render
+    highlightNode();
+    requestAnimationFrame(() => highlightNode());
   }, [selectedNode, isMounted]);
 
   // Update highlighted nodes
