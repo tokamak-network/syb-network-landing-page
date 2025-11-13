@@ -1,74 +1,53 @@
 'use client';
 
 import { UserDetails } from '@/types/network';
-import { X, ArrowRight, ArrowLeft, Award, TrendingUp, Clock } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, TrendingUp, Clock } from 'lucide-react';
 
 interface UserDetailPanelProps {
   user: UserDetails | null;
   onClose: () => void;
   onUserClick?: (userId: string) => void;
+  globalMinScore?: number;
+  globalMaxScore?: number;
 }
 
-export default function UserDetailPanel({ user, onClose, onUserClick }: UserDetailPanelProps) {
+export default function UserDetailPanel({ user, onClose, onUserClick, globalMinScore, globalMaxScore }: UserDetailPanelProps) {
   if (!user) return null;
 
   const formatAddress = (address: string) => {
     return `${address.substring(0, 8)}...${address.substring(34)}`;
   };
 
-  const formatScore = (score: string) => {
-    const num = parseFloat(score);
+  // Normalize score to 0-100 range using global min/max
+  const normalizeScore = (score: string): number => {
+    const scoreNum = parseFloat(score);
     
-    // For extremely large numbers, use more compact formatting
-    if (num >= 1e30) return (num / 1e30).toFixed(0) + ' Non';   // Nonillion
-    if (num >= 1e27) {
-      const oct = num / 1e27;
-      return oct >= 1000 ? oct.toFixed(0) + ' Oct' : oct.toFixed(1) + ' Oct';
-    }
-    if (num >= 1e24) return (num / 1e24).toFixed(1) + ' Sep';   // Septillion
-    if (num >= 1e21) return (num / 1e21).toFixed(1) + ' Sex';   // Sextillion
-    if (num >= 1e18) return (num / 1e18).toFixed(1) + ' Qui';   // Quintillion
-    if (num >= 1e15) return (num / 1e15).toFixed(1) + ' Qua';   // Quadrillion
-    if (num >= 1e12) return (num / 1e12).toFixed(1) + ' T';     // Trillion
-    if (num >= 1e9) return (num / 1e9).toFixed(1) + ' B';       // Billion
-    if (num >= 1e6) return (num / 1e6).toFixed(1) + ' M';       // Million
-    if (num >= 1e3) return (num / 1e3).toFixed(1) + ' K';       // Thousand
-    return num.toFixed(2);
+    // Use global min/max if provided, otherwise fall back to local calculation
+    const minScore = globalMinScore ?? scoreNum;
+    const maxScore = globalMaxScore ?? scoreNum;
+    
+    if (maxScore === minScore) return 50; // Default to middle if all scores are the same
+    return ((scoreNum - minScore) / (maxScore - minScore)) * 100;
   };
 
-  const formatRank = (rank: string) => {
-    const num = parseFloat(rank); // Use parseFloat to handle scientific notation
-    
-    // For extremely large numbers, use more compact formatting
-    if (num >= 1e30) return (num / 1e30).toFixed(0) + ' Non';   // Nonillion (no decimals)
-    if (num >= 1e27) {
-      const oct = num / 1e27;
-      return oct >= 1000 ? oct.toFixed(0) + ' Oct' : oct.toFixed(1) + ' Oct';
-    }
-    if (num >= 1e24) return (num / 1e24).toFixed(1) + ' Sep';   // Septillion
-    if (num >= 1e21) return (num / 1e21).toFixed(1) + ' Sex';   // Sextillion
-    if (num >= 1e18) return (num / 1e18).toFixed(1) + ' Qui';   // Quintillion
-    if (num >= 1e15) return (num / 1e15).toFixed(1) + ' Qua';   // Quadrillion
-    if (num >= 1e12) return (num / 1e12).toFixed(1) + ' T';     // Trillion
-    if (num >= 1e9) return (num / 1e9).toFixed(1) + ' B';       // Billion
-    if (num >= 1e6) return (num / 1e6).toFixed(1) + ' M';       // Million
-    if (num >= 1e3) return (num / 1e3).toFixed(1) + ' K';       // Thousand
-    return Math.round(num).toLocaleString();
+  const formatScore = (score: string): string => {
+    const normalized = normalizeScore(score);
+    return normalized.toFixed(1);
   };
 
-  const getRankLabel = (rank: string) => {
-    const rankNum = parseFloat(rank); // Use parseFloat for large numbers
-    if (rankNum <= 2) return 'Top Trust';
-    if (rankNum <= 5) return 'Good Trust';
-    if (rankNum <= 10) return 'Medium Trust';
+  const getScoreLabel = (score: string) => {
+    const normalized = normalizeScore(score);
+    if (normalized >= 80) return 'Very High Trust';
+    if (normalized >= 60) return 'High Trust';
+    if (normalized >= 40) return 'Medium Trust';
     return 'Building Trust';
   };
 
-  const getRankColor = (rank: string) => {
-    const rankNum = parseFloat(rank); // Use parseFloat for large numbers
-    if (rankNum <= 2) return 'from-green-500 to-green-600'; // Bootstrap is rank 1
-    if (rankNum <= 5) return 'from-blue-500 to-blue-600';
-    if (rankNum <= 10) return 'from-orange-500 to-orange-600';
+  const getScoreColor = (score: string) => {
+    const normalized = normalizeScore(score);
+    if (normalized >= 80) return 'from-green-500 to-green-600';
+    if (normalized >= 60) return 'from-blue-500 to-blue-600';
+    if (normalized >= 40) return 'from-orange-500 to-orange-600';
     return 'from-gray-500 to-gray-600';
   };
 
@@ -114,53 +93,28 @@ export default function UserDetailPanel({ user, onClose, onUserClick }: UserDeta
       </div>
 
       <div className="p-3">
-        {/* Rank - Large Display */}
-        <div className={`bg-gradient-to-br ${getRankColor(user.rank)} p-4 rounded-xl shadow-md mb-3 text-white`}>
+        {/* Score - Large Display */}
+        <div className={`bg-gradient-to-br ${getScoreColor(user.score)} p-4 rounded-xl shadow-md mb-3 text-white`}>
           <div className="flex items-center justify-between mb-1.5">
             <div className="flex items-center space-x-1.5">
-              <Award size={16} />
-              <span className="text-xs font-semibold uppercase tracking-wide">Trust Rank</span>
+              <TrendingUp size={16} />
+              <span className="text-xs font-semibold uppercase tracking-wide">Trust Score</span>
             </div>
             <span className="text-[10px] bg-white/20 backdrop-blur-sm px-1.5 py-0.5 rounded-full">
-              {getRankLabel(user.rank)}
+              {getScoreLabel(user.score)}
             </span>
           </div>
           <div className="flex items-baseline space-x-1 overflow-hidden">
-            <div className={`font-bold break-all ${formatRank(user.rank).length > 10 ? 'text-2xl' : 'text-4xl'}`}>
-              {formatRank(user.rank)}
-            </div>
-          </div>
-          {parseFloat(user.rank) >= 1000 && (
-            <div className="text-[10px] opacity-75 mt-1 truncate">
-              Full: {parseFloat(user.rank).toLocaleString(undefined, {maximumFractionDigits: 0})}
-            </div>
-          )}
-          <div className="text-[10px] opacity-90 mt-1.5">
-            {parseFloat(user.rank) <= 2 ? 'Highly trusted node' : 
-             parseFloat(user.rank) <= 5 ? 'Well-trusted node' :
-             parseFloat(user.rank) <= 10 ? 'Moderately trusted' :
-             'Lower rank = higher trust'}
-          </div>
-        </div>
-
-        {/* Score - Large Display */}
-        <div className="bg-gradient-to-br from-cyan-500 to-cyan-600 p-4 rounded-xl shadow-md mb-3 text-white">
-          <div className="flex items-center space-x-1.5 mb-1.5">
-            <TrendingUp size={16} />
-            <span className="text-xs font-semibold uppercase tracking-wide">Trust Score</span>
-          </div>
-          <div className="flex items-baseline space-x-1 overflow-hidden">
-            <div className={`font-bold break-all ${formatScore(user.score).length > 10 ? 'text-2xl' : 'text-3xl'}`}>
+            <div className="font-bold text-5xl">
               {formatScore(user.score)}
             </div>
+            <div className="text-2xl font-medium opacity-90 ml-1">/100</div>
           </div>
-          {parseFloat(user.score) >= 1000 && (
-            <div className="text-[10px] opacity-75 mt-1 truncate">
-              Full: {parseFloat(user.score).toLocaleString(undefined, {maximumFractionDigits: 0})}
-            </div>
-          )}
-          <div className="text-[10px] opacity-90 mt-1.5">
-            Accumulated trust value
+          <div className="text-[10px] opacity-90 mt-2">
+            {normalizeScore(user.score) >= 80 ? 'Highly trusted node' : 
+             normalizeScore(user.score) >= 60 ? 'Well-trusted node' :
+             normalizeScore(user.score) >= 40 ? 'Moderately trusted' :
+             'Higher score = higher trust'}
           </div>
         </div>
 
@@ -228,7 +182,6 @@ export default function UserDetailPanel({ user, onClose, onUserClick }: UserDeta
                     )}
                   </div>
                   <div className="flex items-center justify-between text-[9px] text-gray-500">
-                    <span>Rank: {formatRank(vouch.from.rank)}</span>
                     <span>Score: {formatScore(vouch.from.score)}</span>
                   </div>
                   <div className="text-[8px] text-gray-400 mt-0.5">
@@ -271,7 +224,6 @@ export default function UserDetailPanel({ user, onClose, onUserClick }: UserDeta
                     )}
                   </div>
                   <div className="flex items-center justify-between text-[9px] text-gray-500">
-                    <span>Rank: {formatRank(vouch.to.rank)}</span>
                     <span>Score: {formatScore(vouch.to.score)}</span>
                   </div>
                   <div className="text-[8px] text-gray-400 mt-0.5">
