@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useAtom } from 'jotai';
 import { useQuery } from '@apollo/client/react';
 import { GET_NETWORK_GRAPH, GET_USER_DETAILS, GET_TRANSACTIONS } from '@/lib/graphql-queries';
@@ -59,13 +59,13 @@ export default function ExplorerPage() {
     }
   });
 
-  const handleNodeClick = (userId: string) => {
+  const handleNodeClick = useCallback((userId: string) => {
     setSelectedNode(userId);
-  };
+  }, [setSelectedNode]);
 
-  const handleClosePanel = () => {
+  const handleClosePanel = useCallback(() => {
     setSelectedNode(null);
-  };
+  }, [setSelectedNode]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -642,11 +642,13 @@ export default function ExplorerPage() {
       </main>
 
       {/* User Detail Panel */}
-      {selectedNode && userData?.user && (
+      {selectedNode && userData?.user && data?.users && (
         <UserDetailPanel
           user={userData.user}
           onClose={handleClosePanel}
           onUserClick={handleNodeClick}
+          globalMinScore={Math.min(...data.users.map(u => parseFloat(u.score)))}
+          globalMaxScore={Math.max(...data.users.map(u => parseFloat(u.score)))}
         />
       )}
 
@@ -666,24 +668,20 @@ export default function ExplorerPage() {
           </h3>
           <div className="space-y-1 sm:space-y-2 text-[10px] sm:text-xs">
             <div className="flex items-center space-x-1.5 sm:space-x-2">
-              <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-green-500 border border-yellow-400 sm:border-2 flex-shrink-0"></div>
-              <span className="text-gray-700 font-semibold">Bootstrap (Rank 1)</span>
-            </div>
-            <div className="flex items-center space-x-1.5 sm:space-x-2">
               <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-green-500 flex-shrink-0"></div>
-              <span className="text-gray-700 font-semibold">Top (Rank 2)</span>
+              <span className="text-gray-700 font-semibold">Very High Trust (80-100)</span>
             </div>
             <div className="flex items-center space-x-1.5 sm:space-x-2">
               <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-blue-500 flex-shrink-0"></div>
-              <span className="text-gray-700">Good (Rank 3-5)</span>
+              <span className="text-gray-700">High Trust (60-79)</span>
             </div>
             <div className="hidden sm:flex items-center space-x-2">
               <div className="w-4 h-4 rounded-full bg-orange-500"></div>
-              <span className="text-gray-700">Medium Trust (Rank 6-10)</span>
+              <span className="text-gray-700">Medium Trust (40-59)</span>
             </div>
             <div className="hidden sm:flex items-center space-x-2">
               <div className="w-4 h-4 rounded-full bg-red-500"></div>
-              <span className="text-gray-700">Low Trust (Rank 11+)</span>
+              <span className="text-gray-700">Building Trust (0-39)</span>
             </div>
             <div className="hidden sm:flex items-center space-x-2">
               <div className="w-6 h-0.5 bg-gray-400"></div>
@@ -691,7 +689,7 @@ export default function ExplorerPage() {
             </div>
           </div>
           <div className="hidden sm:block mt-3 pt-3 border-t border-blue-100 text-xs text-gray-600 space-y-1">
-            <p className="font-medium text-gray-700">Lower rank # = Higher trust</p>
+            <p className="font-medium text-gray-700">Score: 0-100 (Higher = More Trust)</p>
             <p>Click nodes to view details</p>
             <p>Scroll to zoom, drag to pan</p>
           </div>
