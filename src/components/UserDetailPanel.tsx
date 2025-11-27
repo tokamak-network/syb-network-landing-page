@@ -1,7 +1,7 @@
 'use client';
 
 import { UserDetails } from '@/types/network';
-import { X, ArrowRight, ArrowLeft, TrendingUp, Clock } from 'lucide-react';
+import { X, ArrowRight, ArrowLeft, TrendingUp, Clock, DollarSign, CheckCircle2, XCircle } from 'lucide-react';
 
 interface UserDetailPanelProps {
   user: UserDetails | null;
@@ -58,6 +58,15 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
+  };
+
+  const formatStakedAmount = (amount: string): string => {
+    const amountNum = parseFloat(amount);
+    if (amountNum === 0) return '0';
+    // Convert from WTON units to WTON (27 decimals: 1 WTON = 1e27)
+    const wton = amountNum / 1e27;
+    if (wton < 0.0001) return wton.toExponential(2);
+    return wton.toFixed(4);
   };
 
   return (
@@ -118,6 +127,38 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
           </div>
         </div>
 
+        {/* Staking Status - Highlighted Box */}
+        <div className={`mb-3 p-3 rounded-lg shadow-sm border-2 ${
+          user.hasMinimumStake 
+            ? 'bg-green-50 border-green-300' 
+            : 'bg-orange-50 border-orange-300'
+        }`}>
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center space-x-1.5">
+              <DollarSign size={14} className={user.hasMinimumStake ? 'text-green-600' : 'text-orange-600'} />
+              <span className="text-[10px] font-semibold uppercase tracking-wide">Staking Status</span>
+            </div>
+            {user.hasMinimumStake ? (
+              <CheckCircle2 size={16} className="text-green-600" />
+            ) : (
+              <XCircle size={16} className="text-orange-600" />
+            )}
+          </div>
+          <div className="flex items-baseline space-x-1 mb-1">
+            <div className={`font-bold text-2xl ${user.hasMinimumStake ? 'text-green-700' : 'text-orange-700'}`}>
+              {formatStakedAmount(user.stakedAmount)}
+            </div>
+            <div className="text-sm font-medium opacity-80">WTON</div>
+          </div>
+          <div className={`text-[9px] font-medium ${user.hasMinimumStake ? 'text-green-700' : 'text-orange-700'}`}>
+            {user.hasMinimumStake ? (
+              '✓ Meets minimum stake requirement'
+            ) : (
+              '⚠ Below minimum stake requirement'
+            )}
+          </div>
+        </div>
+
         {/* Other Stats - Blue Theme */}
         <div className="grid grid-cols-2 gap-2 mb-3">
           <div className="bg-white/90 backdrop-blur-sm p-2.5 rounded-lg shadow-sm border border-blue-100">
@@ -175,11 +216,16 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
                     <span className="text-[10px] font-mono text-gray-700 group-hover:text-blue-600">
                       {formatAddress(vouch.from.id)}
                     </span>
-                    {vouch.from.isBootstrapNode && (
-                      <span className="px-1 py-0.5 bg-yellow-100 text-yellow-700 text-[8px] font-bold rounded">
-                        BOOT
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1">
+                      {vouch.from.hasMinimumStake && (
+                        <CheckCircle2 size={10} className="text-green-600" title="Staked" />
+                      )}
+                      {vouch.from.isBootstrapNode && (
+                        <span className="px-1 py-0.5 bg-yellow-100 text-yellow-700 text-[8px] font-bold rounded">
+                          BOOT
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center justify-between text-[9px] text-gray-500">
                     <span>Score: {formatScore(vouch.from.score)}</span>
@@ -217,11 +263,16 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
                     <span className="text-[10px] font-mono text-gray-700 group-hover:text-blue-600">
                       {formatAddress(vouch.to.id)}
                     </span>
-                    {vouch.to.isBootstrapNode && (
-                      <span className="px-1 py-0.5 bg-yellow-100 text-yellow-700 text-[8px] font-bold rounded">
-                        BOOT
-                      </span>
-                    )}
+                    <div className="flex items-center gap-1">
+                      {vouch.to.hasMinimumStake && (
+                        <CheckCircle2 size={10} className="text-green-600" title="Staked" />
+                      )}
+                      {vouch.to.isBootstrapNode && (
+                        <span className="px-1 py-0.5 bg-yellow-100 text-yellow-700 text-[8px] font-bold rounded">
+                          BOOT
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center justify-between text-[9px] text-gray-500">
                     <span>Score: {formatScore(vouch.to.score)}</span>

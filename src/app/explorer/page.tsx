@@ -305,7 +305,7 @@ export default function ExplorerPage() {
                 </div>
               ) : data?.network ? (
                 <div className="pb-3 border-b border-gray-200">
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
                     <div>
                       <div className="text-gray-500 text-[10px] sm:text-xs font-medium mb-0.5">Total Users</div>
                       <div className="text-gray-900 font-bold text-base sm:text-lg">{data.network.totalUsers}</div>
@@ -336,6 +336,20 @@ export default function ExplorerPage() {
                           ? (parseInt(data.network.totalVouches) / parseInt(data.network.totalUsers)).toFixed(1)
                           : '0'
                         }
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-gray-500 text-[10px] sm:text-xs font-medium mb-0.5">Min. Stake</div>
+                      <div className="text-gray-900 font-bold text-base sm:text-lg">
+                        {(parseFloat(data.network.minimumStake) / 1e27).toFixed(2)} WTON
+                      </div>
+                    </div>
+
+                    <div>
+                      <div className="text-gray-500 text-[10px] sm:text-xs font-medium mb-0.5">Staked Users</div>
+                      <div className="text-gray-900 font-bold text-base sm:text-lg">
+                        {data.users.filter(u => u.hasMinimumStake).length}
                       </div>
                     </div>
                   </div>
@@ -384,7 +398,7 @@ export default function ExplorerPage() {
                       </div>
                     </div>
                   </div>
-                ) : data ? (
+                ) : data && data.users && data.users.length > 0 ? (
                   <div className="h-[calc(100vh-260px)] sm:h-[calc(100vh-280px)]">
                     <NetworkGraph
                       users={data.users}
@@ -395,9 +409,27 @@ export default function ExplorerPage() {
                   </div>
                 ) : (
                   <div className="h-[calc(100vh-260px)] sm:h-[calc(100vh-280px)] flex items-center justify-center px-4">
-                    <div className="text-center">
-                      <Network size={48} className="mx-auto mb-4 text-gray-400" />
-                      <p className="text-lg text-gray-700 font-medium">No network data available</p>
+                    <div className="text-center max-w-md">
+                      <div className="relative mb-6">
+                        <Network size={64} className="mx-auto text-gray-300" />
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <Users size={32} className="text-gray-400" />
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-800 mb-3">No Users in Network Yet</h3>
+                      <p className="text-gray-600 mb-2">
+                        The network is currently empty. Users will appear here once they start creating vouches.
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Check back soon or create the first vouch to get started!
+                      </p>
+                      <button
+                        onClick={() => refetch()}
+                        className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 hover:scale-105 shadow-md inline-flex items-center gap-2"
+                      >
+                        <RefreshCw size={16} />
+                        Refresh
+                      </button>
                     </div>
                   </div>
                 )}
@@ -629,9 +661,27 @@ export default function ExplorerPage() {
                   </>
                 ) : (
                   <div className="p-12">
-                    <div className="text-center">
-                      <FileText size={48} className="mx-auto mb-4 text-gray-400" />
-                      <p className="text-lg text-gray-700 font-medium">No transactions found</p>
+                    <div className="text-center max-w-md mx-auto">
+                      <div className="relative mb-6">
+                        <FileText size={64} className="mx-auto text-gray-300" />
+                        <div className="absolute inset-0 flex items-center justify-center mt-2">
+                          <ArrowRight size={24} className="text-gray-400" />
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-bold text-gray-800 mb-3">No Transactions Yet</h3>
+                      <p className="text-gray-600 mb-2">
+                        No vouches have been created on the network yet.
+                      </p>
+                      <p className="text-sm text-gray-500">
+                        Transactions will appear here once users start vouching for each other.
+                      </p>
+                      <button
+                        onClick={() => refetchTx()}
+                        className="mt-6 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-all duration-300 hover:scale-105 shadow-md inline-flex items-center gap-2"
+                      >
+                        <RefreshCw size={16} />
+                        Refresh
+                      </button>
                     </div>
                   </div>
                 )}
@@ -684,6 +734,14 @@ export default function ExplorerPage() {
               <span className="text-gray-700">Building Trust (0-39)</span>
             </div>
             <div className="hidden sm:flex items-center space-x-2">
+              <div className="w-4 h-4 rounded-full bg-gray-300 border-2 border-green-600 border-double"></div>
+              <span className="text-gray-700">Double Border = Staked</span>
+            </div>
+            <div className="hidden sm:flex items-center space-x-2">
+              <div className="w-4 h-4 rounded-full bg-gray-300 border-2 border-yellow-500"></div>
+              <span className="text-gray-700">Gold Border = Bootstrap</span>
+            </div>
+            <div className="hidden sm:flex items-center space-x-2">
               <div className="w-6 h-0.5 bg-gray-400"></div>
               <span className="text-gray-700">Vouch Direction</span>
             </div>
@@ -692,6 +750,7 @@ export default function ExplorerPage() {
             <p className="font-medium text-gray-700">Score: 0-100 (Higher = More Trust)</p>
             <p>Click nodes to view details</p>
             <p>Scroll to zoom, drag to pan</p>
+            <p>Hover over nodes to see stake info</p>
           </div>
         </div>
       )}

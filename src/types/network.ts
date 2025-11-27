@@ -7,6 +7,8 @@ export interface User {
   outCount: number;
   createdAt: string;
   updatedAt: string;
+  stakedAmount: string;
+  hasMinimumStake: boolean;
 }
 
 export interface Vouch {
@@ -37,6 +39,8 @@ export interface Network {
   totalVouches: string;
   bootstrapComplete: boolean;
   lastUpdated: string;
+  minimumStake: string;
+  bonusCap: string;
 }
 
 export interface NetworkGraphData {

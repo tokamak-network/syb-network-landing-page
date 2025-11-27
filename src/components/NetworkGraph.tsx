@@ -75,6 +75,8 @@ export default function NetworkGraph({
         fullAddress: user.id,
         score: user.score,
         isBootstrapNode: user.isBootstrapNode,
+        hasMinimumStake: user.hasMinimumStake,
+        stakedAmount: user.stakedAmount,
         inCount: user.inCount,
         outCount: user.outCount,
         size: getNodeSize(user.score),
@@ -120,6 +122,22 @@ export default function NetworkGraph({
         },
         {
           selector: 'node[isBootstrapNode = true]',
+          style: {
+            'border-width': 4,
+            'border-color': '#fbbf24',
+            'border-style': 'solid'
+          }
+        },
+        {
+          selector: 'node[hasMinimumStake = true]',
+          style: {
+            'border-width': 3,
+            'border-color': '#10b981',
+            'border-style': 'double'
+          }
+        },
+        {
+          selector: 'node[isBootstrapNode = true][hasMinimumStake = true]',
           style: {
             'border-width': 4,
             'border-color': '#fbbf24',
@@ -201,8 +219,10 @@ export default function NetworkGraph({
       const node = event.target;
       const data = node.data();
       const normalized = normalizeScore(data.score);
+      const stakedWton = (parseFloat(data.stakedAmount) / 1e27).toFixed(4);
+      const stakeStatus = data.hasMinimumStake ? '✓ Staked' : '✗ Not Staked';
       node.style({
-        'label': `${data.fullAddress}\nScore: ${normalized.toFixed(1)}/100\nIn: ${data.inCount} | Out: ${data.outCount}`
+        'label': `${data.fullAddress}\nScore: ${normalized.toFixed(1)}/100\nIn: ${data.inCount} | Out: ${data.outCount}\n${stakeStatus} (${stakedWton} WTON)`
       });
     });
 

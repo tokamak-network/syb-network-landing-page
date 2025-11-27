@@ -12,6 +12,8 @@ export const GET_NETWORK_GRAPH = gql`
       outCount
       createdAt
       updatedAt
+      stakedAmount
+      hasMinimumStake
     }
     vouches(first: $first, orderBy: blockTimestamp, orderDirection: asc) {
       id
@@ -31,6 +33,8 @@ export const GET_NETWORK_GRAPH = gql`
       totalVouches
       bootstrapComplete
       lastUpdated
+      minimumStake
+      bonusCap
     }
   }
 `;
@@ -47,6 +51,8 @@ export const GET_USER_DETAILS = gql`
       outCount
       createdAt
       updatedAt
+      stakedAmount
+      hasMinimumStake
       incomingVouches {
         id
         from {
@@ -54,6 +60,8 @@ export const GET_USER_DETAILS = gql`
           rank
           score
           isBootstrapNode
+          stakedAmount
+          hasMinimumStake
         }
         blockTimestamp
         scoreFrom
@@ -65,6 +73,8 @@ export const GET_USER_DETAILS = gql`
           rank
           score
           isBootstrapNode
+          stakedAmount
+          hasMinimumStake
         }
         blockTimestamp
         scoreTo
@@ -105,12 +115,16 @@ export const GET_NETWORK_STATS = gql`
       totalVouches
       bootstrapComplete
       lastUpdated
+      minimumStake
+      bonusCap
     }
     users(first: 10, orderBy: score, orderDirection: desc) {
       id
       score
       rank
       isBootstrapNode
+      stakedAmount
+      hasMinimumStake
     }
   }
 `;
@@ -130,6 +144,8 @@ export const SEARCH_USERS = gql`
       isBootstrapNode
       inCount
       outCount
+      stakedAmount
+      hasMinimumStake
     }
   }
 `;
