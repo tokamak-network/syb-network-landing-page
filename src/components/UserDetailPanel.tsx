@@ -218,7 +218,9 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
                     </span>
                     <div className="flex items-center gap-1">
                       {vouch.from.hasMinimumStake && (
-                        <CheckCircle2 size={10} className="text-green-600" title="Staked" />
+                        <span title="Staked">
+                          <CheckCircle2 size={10} className="text-green-600" />
+                        </span>
                       )}
                       {vouch.from.isBootstrapNode && (
                         <span className="px-1 py-0.5 bg-yellow-100 text-yellow-700 text-[8px] font-bold rounded">
@@ -265,7 +267,9 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
                     </span>
                     <div className="flex items-center gap-1">
                       {vouch.to.hasMinimumStake && (
-                        <CheckCircle2 size={10} className="text-green-600" title="Staked" />
+                        <span title="Staked">
+                          <CheckCircle2 size={10} className="text-green-600" />
+                        </span>
                       )}
                       {vouch.to.isBootstrapNode && (
                         <span className="px-1 py-0.5 bg-yellow-100 text-yellow-700 text-[8px] font-bold rounded">
