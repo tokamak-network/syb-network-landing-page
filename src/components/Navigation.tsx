@@ -104,6 +104,9 @@ export default function Navigation() {
                   <a href="/#vision" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Future
                   </a>
+                  <a href="/blog" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                    Blog
+                  </a>
                   <a href="/#connect" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Community
                   </a>
@@ -185,6 +188,13 @@ export default function Navigation() {
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
                 Future
+              </a>
+              <a 
+                href="/blog" 
+                onClick={closeMobileMenu}
+                className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
+              >
+                Blog
               </a>
               <a 
                 href="/#connect" 
