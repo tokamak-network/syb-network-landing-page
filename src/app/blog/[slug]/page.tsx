@@ -2,13 +2,11 @@ import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import NotionContent from '@/components/NotionContent';
 import { getBlogPostBySlug, getAllBlogSlugs } from '@/lib/notion';
 import { Calendar, ArrowLeft, Tag, User } from 'lucide-react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import type { Components } from 'react-markdown';
 
 // Revalidate every hour
 export const revalidate = 3600;
@@ -78,143 +76,6 @@ async function PostContent({ slug }: { slug: string }) {
     });
   };
 
-  // Custom markdown components with landing page design
-  const components: Components = {
-    h1: ({ children }) => (
-      <h1 className="text-4xl md:text-5xl font-bold text-blue-600 mt-12 mb-6">
-        {children}
-      </h1>
-    ),
-    h2: ({ children }) => (
-      <h2 className="text-3xl md:text-4xl font-bold text-blue-600 mt-10 mb-5">
-        {children}
-      </h2>
-    ),
-    h3: ({ children }) => (
-      <h3 className="text-2xl md:text-3xl font-bold text-blue-600 mt-8 mb-4">
-        {children}
-      </h3>
-    ),
-    h4: ({ children }) => (
-      <h4 className="text-xl md:text-2xl font-bold text-blue-700 mt-6 mb-3">
-        {children}
-      </h4>
-    ),
-    h5: ({ children }) => (
-      <h5 className="text-lg md:text-xl font-bold text-blue-700 mt-6 mb-3">
-        {children}
-      </h5>
-    ),
-    h6: ({ children }) => (
-      <h6 className="text-base md:text-lg font-bold text-blue-700 mt-6 mb-3">
-        {children}
-      </h6>
-    ),
-    p: ({ children }) => (
-      <p className="text-gray-700 leading-relaxed mb-6 text-lg">
-        {children}
-      </p>
-    ),
-    a: ({ href, children }) => (
-      <a 
-        href={href} 
-        className="text-blue-600 hover:text-blue-700 underline font-medium transition-colors"
-        target={href?.startsWith('http') ? '_blank' : undefined}
-        rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
-      >
-        {children}
-      </a>
-    ),
-    ul: ({ children }) => (
-      <ul className="list-disc list-inside space-y-2 mb-6 text-gray-700">
-        {children}
-      </ul>
-    ),
-    ol: ({ children }) => (
-      <ol className="list-decimal list-inside space-y-2 mb-6 text-gray-700">
-        {children}
-      </ol>
-    ),
-    li: ({ children }) => (
-      <li className="ml-4 leading-relaxed">
-        {children}
-      </li>
-    ),
-    blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-blue-500 pl-6 py-2 my-6 bg-blue-50 rounded-r-lg">
-        <div className="text-gray-700 italic">
-          {children}
-        </div>
-      </blockquote>
-    ),
-    code: ({ children, className }) => {
-      // Inline code doesn't have a className
-      const isInline = !className;
-      
-      if (isInline) {
-        return (
-          <code className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-sm font-mono">
-            {children}
-          </code>
-        );
-      }
-      return (
-        <code className="block bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto text-sm font-mono my-4 border-2 border-blue-500">
-          {children}
-        </code>
-      );
-    },
-    pre: ({ children }) => (
-      <pre className="bg-gray-900 text-gray-100 p-6 rounded-xl overflow-x-auto my-6 border-2 border-blue-500">
-        {children}
-      </pre>
-    ),
-    img: ({ src, alt }) => (
-      <div className="my-8">
-        <img 
-          src={src} 
-          alt={alt || ''} 
-          className="w-full rounded-xl border-2 border-gray-200 shadow-lg"
-        />
-      </div>
-    ),
-    hr: ({ }) => (
-      <hr className="border-t-2 border-blue-200 my-8" />
-    ),
-    table: ({ children }) => (
-      <div className="overflow-x-auto my-6">
-        <table className="min-w-full border-2 border-blue-300 rounded-lg overflow-hidden">
-          {children}
-        </table>
-      </div>
-    ),
-    thead: ({ children }) => (
-      <thead className="bg-blue-600 text-white">
-        {children}
-      </thead>
-    ),
-    th: ({ children }) => (
-      <th className="px-6 py-3 text-left font-semibold border border-blue-500">
-        {children}
-      </th>
-    ),
-    td: ({ children }) => (
-      <td className="px-6 py-3 border border-blue-200 text-gray-700">
-        {children}
-      </td>
-    ),
-    strong: ({ children }) => (
-      <strong className="font-bold text-gray-900">
-        {children}
-      </strong>
-    ),
-    em: ({ children }) => (
-      <em className="italic text-gray-800">
-        {children}
-      </em>
-    ),
-  };
-
   return (
     <article className="max-w-4xl mx-auto">
       {/* Back Button */}
@@ -256,10 +117,15 @@ async function PostContent({ slug }: { slug: string }) {
             <span className="font-medium">{formatDate(post.publishDate)}</span>
           </div>
           
-          {post.author && (
+          {post.authors && post.authors.length > 0 && (
             <div className="flex items-center gap-2">
               <User size={18} className="text-blue-600" />
-              <span className="font-medium">{post.author}</span>
+              <span className="font-medium">
+                {post.authors.length === 1 
+                  ? post.authors[0]
+                  : post.authors.slice(0, -1).join(', ') + ' & ' + post.authors[post.authors.length - 1]
+                }
+              </span>
             </div>
           )}
         </div>
@@ -276,15 +142,10 @@ async function PostContent({ slug }: { slug: string }) {
         </div>
       )}
 
-      {/* Post Content with ReactMarkdown */}
-      <div className="prose prose-lg max-w-none mb-12">
-        <ReactMarkdown 
-          remarkPlugins={[remarkGfm]}
-          components={components}
-        >
-          {post.content || ''}
-        </ReactMarkdown>
-      </div>
+      {/* Post Content - Using react-notion-x */}
+      {post.recordMap && (
+        <NotionContent recordMap={post.recordMap} />
+      )}
 
       {/* Back to Blog Link */}
       <div className="mt-16 pt-8 border-t-2 border-gray-200">

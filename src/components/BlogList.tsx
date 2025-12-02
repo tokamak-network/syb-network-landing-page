@@ -28,7 +28,9 @@ export default function BlogList({ posts, showAll = false }: BlogListProps) {
   const allAuthors = useMemo(() => {
     const authorSet = new Set<string>();
     posts.forEach(post => {
-      if (post.author) authorSet.add(post.author);
+      if (post.authors && post.authors.length > 0) {
+        post.authors.forEach(author => authorSet.add(author));
+      }
     });
     return Array.from(authorSet).sort();
   }, [posts]);
@@ -54,7 +56,9 @@ export default function BlogList({ posts, showAll = false }: BlogListProps) {
 
     // Apply author filter
     if (selectedAuthor) {
-      filtered = filtered.filter(post => post.author === selectedAuthor);
+      filtered = filtered.filter(post => 
+        post.authors && post.authors.includes(selectedAuthor)
+      );
     }
 
     // Sort by date (newest first)

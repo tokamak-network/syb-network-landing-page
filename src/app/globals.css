@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 :root {
   --background: #ffffff;
@@ -364,4 +365,1023 @@ html {
 
 .animate-shimmer {
   animation: shimmer 2s infinite;
+}
+
+/* ================================
+   React-Notion-X Customizations
+   ================================ */
+
+.notion-content {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Override notion default styles */
+.notion-content .notion-page {
+  padding: 0;
+  width: 100%;
+}
+
+.notion-content .notion-title {
+  display: none; /* We show title in our own header */
+}
+
+.notion-content .notion-page-cover {
+  display: none; /* We show cover in our own header */
+}
+
+/* Callout styling */
+.notion-content .notion-callout {
+  border-radius: 12px;
+  margin: 24px 0;
+  background-color: #eff6ff;
+  border-left: 4px solid #3b82f6;
+}
+
+/* Code blocks */
+.notion-content .notion-code {
+  border-radius: 12px;
+  background: #1e293b !important;
+}
+
+/* Images */
+.notion-content .notion-asset-wrapper img {
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Tables */
+.notion-content .notion-table {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+/* Links */
+.notion-content .notion-link {
+  color: #2563eb;
+  border-bottom-color: #93c5fd;
+}
+
+.notion-content .notion-link:hover {
+  border-bottom-color: #2563eb;
+}
+
+/* Headings */
+.notion-content .notion-h1,
+.notion-content .notion-h2,
+.notion-content .notion-h3 {
+  color: #1f2937;
+}
+
+.notion-content .notion-h2 {
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.5em;
+}
+
+/* Toggle blocks */
+.notion-content .notion-toggle {
+  border-radius: 8px;
+  background: #f9fafb;
+}
+
+/* Equation blocks */
+.notion-content .notion-equation {
+  padding: 24px 16px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+/* ================================
+   Notion Block Styles for Blog
+   ================================ */
+
+/* HTML aside element - Notion exports callouts as <aside> */
+.prose aside,
+aside,
+.notion-aside {
+  display: block;
+  padding: 20px 24px;
+  border-radius: 12px;
+  margin: 24px 0;
+  background-color: #eff6ff;
+  border-left: 4px solid #3b82f6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #1e3a5f;
+}
+
+/* Aside color variants based on data-color attribute */
+.prose aside[data-color="gray_background"],
+aside[data-color="gray_background"] {
+  background-color: #f3f4f6;
+  border-left-color: #6b7280;
+}
+
+.prose aside[data-color="brown_background"],
+aside[data-color="brown_background"] {
+  background-color: #fef3c7;
+  border-left-color: #92400e;
+}
+
+.prose aside[data-color="orange_background"],
+aside[data-color="orange_background"] {
+  background-color: #ffedd5;
+  border-left-color: #ea580c;
+}
+
+.prose aside[data-color="yellow_background"],
+aside[data-color="yellow_background"] {
+  background-color: #fef9c3;
+  border-left-color: #ca8a04;
+}
+
+.prose aside[data-color="green_background"],
+aside[data-color="green_background"] {
+  background-color: #dcfce7;
+  border-left-color: #16a34a;
+}
+
+.prose aside[data-color="blue_background"],
+aside[data-color="blue_background"] {
+  background-color: #dbeafe;
+  border-left-color: #2563eb;
+}
+
+.prose aside[data-color="purple_background"],
+aside[data-color="purple_background"] {
+  background-color: #f3e8ff;
+  border-left-color: #9333ea;
+}
+
+.prose aside[data-color="pink_background"],
+aside[data-color="pink_background"] {
+  background-color: #fce7f3;
+  border-left-color: #db2777;
+}
+
+.prose aside[data-color="red_background"],
+aside[data-color="red_background"] {
+  background-color: #fee2e2;
+  border-left-color: #dc2626;
+}
+
+.prose aside p,
+aside p {
+  margin: 0.5em 0 !important;
+}
+
+.prose aside p:first-child,
+aside p:first-child {
+  margin-top: 0 !important;
+}
+
+.prose aside p:last-child,
+aside p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.prose aside strong,
+aside strong {
+  color: #1e40af;
+  font-weight: 600;
+}
+
+.prose aside ol,
+aside ol {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+  list-style-type: decimal;
+}
+
+.prose aside ul,
+aside ul {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+  list-style-type: disc;
+}
+
+.prose aside li,
+aside li {
+  margin: 0.4em 0;
+  line-height: 1.6;
+}
+
+/* Math in aside */
+.prose aside .katex,
+aside .katex {
+  font-size: 1em;
+}
+
+.prose aside .katex-display,
+aside .katex-display {
+  margin: 16px 0;
+  padding: 16px 12px;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Code in aside */
+.prose aside code,
+aside code {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+  color: #1e40af !important;
+  padding: 2px 6px !important;
+  border-radius: 4px;
+  font-size: 0.9em;
+}
+
+/* Callout blocks - matching Notion's style (custom class) */
+.notion-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 20px 24px;
+  border-radius: 12px;
+  margin: 24px 0;
+  background-color: #f7f6f3;
+  border-left: 4px solid #e5e5e5;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.notion-callout-icon {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  line-height: 1.5;
+}
+
+.notion-callout-content {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #37352f;
+}
+
+.notion-callout-content p {
+  margin: 0.5em 0 !important;
+}
+
+.notion-callout-content p:first-child {
+  margin-top: 0 !important;
+}
+
+.notion-callout-content p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Support for nested lists in callouts */
+.notion-callout-content ul,
+.notion-callout-content ol {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+}
+
+.notion-callout-content li {
+  margin: 0.25em 0;
+}
+
+/* Support for inline math in callouts */
+.notion-callout-content .katex {
+  font-size: 1em;
+}
+
+/* Callout color variants - matching Notion colors */
+.notion-callout[data-color="default"] {
+  background-color: #f7f6f3;
+  border-left-color: #e5e5e5;
+}
+
+.notion-callout[data-color="gray_background"] {
+  background-color: #f1f1ef;
+  border-left-color: #9b9a97;
+}
+
+.notion-callout[data-color="brown_background"] {
+  background-color: #f4eeee;
+  border-left-color: #96735c;
+}
+
+.notion-callout[data-color="orange_background"] {
+  background-color: #fbecdd;
+  border-left-color: #d9730d;
+}
+
+.notion-callout[data-color="yellow_background"] {
+  background-color: #faf3dd;
+  border-left-color: #dfab01;
+}
+
+.notion-callout[data-color="green_background"] {
+  background-color: #edf3ec;
+  border-left-color: #448361;
+}
+
+.notion-callout[data-color="blue_background"] {
+  background-color: #e7f3f8;
+  border-left-color: #2f7dc2;
+}
+
+.notion-callout[data-color="purple_background"] {
+  background-color: #f4f0f7;
+  border-left-color: #9065b0;
+}
+
+.notion-callout[data-color="pink_background"] {
+  background-color: #f9f0f3;
+  border-left-color: #c14c8a;
+}
+
+.notion-callout[data-color="red_background"] {
+  background-color: #fdebec;
+  border-left-color: #e03e3e;
+}
+
+/* Bookmark links */
+.notion-bookmark {
+  display: block;
+  padding: 14px 18px;
+  margin: 16px 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  color: #2563eb;
+  text-decoration: none;
+  background-color: #fafafa;
+  transition: all 0.2s ease;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.notion-bookmark:hover {
+  background-color: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+/* Toggle blocks */
+.notion-toggle {
+  margin: 12px 0;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.notion-toggle summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  background-color: #fafafa;
+  font-weight: 500;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notion-toggle summary::before {
+  content: '▸';
+  transition: transform 0.2s ease;
+}
+
+.notion-toggle[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.notion-toggle summary::-webkit-details-marker {
+  display: none;
+}
+
+.notion-toggle > *:not(summary) {
+  padding: 0 18px 14px;
+}
+
+/* Divider */
+.notion-divider {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d0d0d0, transparent);
+  margin: 32px 0;
+}
+
+/* ================================
+   Figure and Image Styles
+   ================================ */
+
+.notion-figure {
+  margin: 32px 0;
+  text-align: center;
+}
+
+.notion-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.notion-figcaption {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #6b7280;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* ================================
+   Table Styles - Enhanced for complex tables
+   ================================ */
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 28px 0;
+  font-size: 0.95rem;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.prose thead {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+}
+
+.prose th {
+  padding: 14px 16px;
+  text-align: left;
+  font-weight: 600;
+  color: #1e293b;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.prose td {
+  padding: 12px 16px;
+  border-bottom: 1px solid #f1f5f9;
+  vertical-align: top;
+  line-height: 1.6;
+}
+
+.prose tbody tr:hover {
+  background-color: #f8fafc;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Table with math formulas */
+.prose td .katex,
+.prose th .katex {
+  font-size: 0.95em;
+}
+
+/* Responsive table wrapper */
+.table-wrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 24px 0;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+}
+
+.table-wrapper table {
+  margin: 0;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* ================================
+   KaTeX Math Display - Enhanced
+   ================================ */
+
+/* Block equations */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 24px 16px;
+  margin: 24px 0;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+}
+
+.katex-display > .katex {
+  font-size: 1.15em;
+}
+
+/* Inline equations - make them blend with text */
+.katex {
+  font-size: 1em;
+  font-weight: normal;
+}
+
+/* Remove background/box from inline equations */
+.notion-content .notion-inline-equation,
+.notion-inline-equation {
+  background: transparent !important;
+  padding: 0 !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.notion-content .notion-inline-equation .katex,
+.notion-inline-equation .katex {
+  font-weight: normal;
+  color: inherit;
+}
+
+/* Math in callouts - slightly smaller */
+.notion-callout .katex-display {
+  padding: 16px 12px;
+  margin: 16px 0;
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* Override react-notion-x inline equation styling */
+.notion-content span[class*="equation"],
+.notion-content .notion-equation-inline,
+span.notion-inline-equation {
+  background: none !important;
+  background-color: transparent !important;
+  padding: 0 2px !important;
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  display: inline !important;
+}
+
+/* Ensure KaTeX in inline equations looks like normal text */
+span.notion-inline-equation .katex,
+.notion-content span[class*="equation"] .katex {
+  font-size: 1em !important;
+  font-weight: inherit !important;
+  color: inherit !important;
+}
+
+/* Aggressive override for all inline math/equation elements */
+.notion-content [class*="inline"][class*="equation"],
+.notion-content [class*="inline"][class*="math"],
+[class*="notion"][class*="inline"][class*="equation"] {
+  background: transparent !important;
+  background-color: transparent !important;
+  padding: 0 1px !important;
+  margin: 0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Scrollbar for math blocks */
+.katex-display::-webkit-scrollbar {
+  height: 6px;
+}
+
+.katex-display::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 3px;
+}
+
+.katex-display::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 3px;
+}
+
+.katex-display::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* ================================
+   Code Block Styles
+   ================================ */
+
+.prose pre {
+  background: #1e293b !important;
+  border-radius: 12px;
+  padding: 20px 24px;
+  overflow-x: auto;
+  margin: 24px 0;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.prose pre code {
+  background: transparent !important;
+  padding: 0 !important;
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: #e2e8f0;
+}
+
+/* Inline code */
+.prose code {
+  background-color: #eff6ff !important;
+  color: #1e40af !important;
+  padding: 2px 6px !important;
+  border-radius: 4px;
+  font-size: 0.9em;
+  font-weight: 500;
+}
+
+/* Ensure inline code doesn't have backticks */
+.prose code::before,
+.prose code::after {
+  content: none !important;
+}
+
+/* ================================
+   Column Layout Styles
+   ================================ */
+
+.notion-column-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 24px 0;
+}
+
+.notion-column {
+  flex: 1;
+  min-width: 280px;
+}
+
+@media (max-width: 768px) {
+  .notion-column-list {
+    flex-direction: column;
+  }
+  
+  .notion-column {
+    min-width: 100%;
+  }
+}
+
+/* ================================
+   Video Embed Styles
+   ================================ */
+
+.notion-video-embed {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  margin: 28px 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background-color: #000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.notion-video-embed iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.notion-video {
+  width: 100%;
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 28px 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ================================
+   Blockquote Styles
+   ================================ */
+
+.prose blockquote {
+  border-left: 4px solid #3b82f6;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  padding: 16px 24px;
+  margin: 24px 0;
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+  color: #1e40af;
+}
+
+.prose blockquote p {
+  margin: 0;
+}
+
+/* ================================
+   List Styles
+   ================================ */
+
+.prose ul {
+  list-style-type: disc;
+  padding-left: 1.5em;
+}
+
+.prose ol {
+  list-style-type: decimal;
+  padding-left: 1.5em;
+}
+
+.prose li {
+  margin: 0.5em 0;
+  line-height: 1.7;
+}
+
+.prose li::marker {
+  color: #3b82f6;
+}
+
+/* Nested lists */
+.prose ul ul,
+.prose ol ul {
+  list-style-type: circle;
+}
+
+.prose ul ul ul,
+.prose ol ul ul {
+  list-style-type: square;
+}
+
+/* ================================
+   Link Styles
+   ================================ */
+
+.prose a {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.prose a:hover {
+  color: #1d4ed8;
+  border-bottom-color: #1d4ed8;
+}
+
+/* ================================
+   Horizontal Rule
+   ================================ */
+
+.prose hr {
+  border: none;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d1d5db, transparent);
+  margin: 40px 0;
+}
+
+/* ================================
+   Responsive Adjustments
+   ================================ */
+
+@media (max-width: 640px) {
+  .notion-callout {
+    padding: 16px;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .notion-callout-icon {
+    font-size: 1.25rem;
+  }
+  
+  .prose table {
+    font-size: 0.85rem;
+  }
+  
+  .prose th,
+  .prose td {
+    padding: 10px 12px;
+  }
+  
+  .katex-display {
+    padding: 16px 12px;
+  }
+  
+  .katex-display > .katex {
+    font-size: 1em;
+  }
+}
+
+/* ================================
+   Additional Notion HTML Elements
+   ================================ */
+
+/* Mark/Highlight text */
+.prose mark,
+mark {
+  background-color: #fef08a;
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: inherit;
+}
+
+/* Underline */
+.prose u,
+u {
+  text-decoration: underline;
+  text-decoration-color: #3b82f6;
+  text-underline-offset: 2px;
+}
+
+/* Strikethrough */
+.prose del,
+.prose s,
+del,
+s {
+  text-decoration: line-through;
+  color: #9ca3af;
+}
+
+/* Details/Summary (toggle blocks) */
+.prose details,
+details {
+  margin: 16px 0;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fafafa;
+}
+
+.prose details summary,
+details summary {
+  padding: 14px 18px;
+  cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.prose details summary:hover,
+details summary:hover {
+  background-color: #f3f4f6;
+}
+
+.prose details summary::before,
+details summary::before {
+  content: '▸';
+  font-size: 0.8em;
+  transition: transform 0.2s ease;
+}
+
+.prose details[open] summary::before,
+details[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.prose details summary::-webkit-details-marker,
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+.prose details > *:not(summary),
+details > *:not(summary) {
+  padding: 0 18px 14px;
+}
+
+/* Superscript and Subscript */
+.prose sup,
+sup {
+  font-size: 0.75em;
+  vertical-align: super;
+}
+
+.prose sub,
+sub {
+  font-size: 0.75em;
+  vertical-align: sub;
+}
+
+/* Keyboard input */
+.prose kbd,
+kbd {
+  background-color: #f3f4f6;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  padding: 2px 6px;
+  font-size: 0.85em;
+  font-family: var(--font-mono), monospace;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Definition lists */
+.prose dl,
+dl {
+  margin: 16px 0;
+}
+
+.prose dt,
+dt {
+  font-weight: 600;
+  color: #1f2937;
+  margin-top: 12px;
+}
+
+.prose dd,
+dd {
+  margin-left: 24px;
+  color: #4b5563;
+}
+
+/* Abbreviation with tooltip */
+.prose abbr,
+abbr {
+  text-decoration: underline dotted;
+  cursor: help;
+}
+
+/* Figure element from Notion */
+.prose figure,
+figure {
+  margin: 32px 0;
+  text-align: center;
+}
+
+.prose figure img,
+figure img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.prose figcaption,
+figcaption {
+  margin-top: 12px;
+  font-size: 0.9rem;
+  color: #6b7280;
+  font-style: italic;
+  line-height: 1.5;
+}
+
+/* Notion-style quote blocks - distinct from aside/callouts */
+.prose > blockquote,
+blockquote,
+.notion-blockquote {
+  border-left: 4px solid #94a3b8;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 16px 24px;
+  margin: 24px 0;
+  border-radius: 0 12px 12px 0;
+  font-style: italic;
+  color: #475569;
+}
+
+.prose > blockquote p,
+blockquote p {
+  margin: 0.5em 0;
+}
+
+.prose > blockquote p:first-child,
+blockquote p:first-child {
+  margin-top: 0;
+}
+
+.prose > blockquote p:last-child,
+blockquote p:last-child {
+  margin-bottom: 0;
+}
+
+/* Example callout styling - matches Notion "Example:" pattern */
+.prose aside strong:first-child,
+aside strong:first-child {
+  display: inline;
+  color: #1e40af;
+}
+
+/* Note callout styling */
+.prose aside:has(> p:first-child > strong:first-child) {
+  border-left-color: #3b82f6;
+}
+
+/* Remark callout - slightly different style */
+.prose aside p:first-child strong:only-child {
+  font-size: 0.9em;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+/* ================================
+   Print Styles
+   ================================ */
+
+@media print {
+  .notion-callout,
+  aside {
+    break-inside: avoid;
+  }
+  
+  .notion-figure,
+  figure {
+    break-inside: avoid;
+  }
+  
+  .prose table {
+    break-inside: avoid;
+  }
+  
+  details {
+    break-inside: avoid;
+  }
 }

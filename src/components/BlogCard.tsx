@@ -60,9 +60,12 @@ export default function BlogCard({ post }: BlogCardProps) {
             <span>{formatDate(post.publishDate)}</span>
           </div>
           
-          {post.author && (
+          {post.authors && post.authors.length > 0 && (
             <div className="flex items-center gap-1">
-              <span>By {post.author}</span>
+              <span>By {post.authors.length === 1 
+                ? post.authors[0] 
+                : post.authors.slice(0, -1).join(', ') + ' & ' + post.authors[post.authors.length - 1]
+              }</span>
             </div>
           )}
         </div>

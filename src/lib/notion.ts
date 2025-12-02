@@ -1,20 +1,22 @@
 import { Client } from '@notionhq/client';
-import { NotionToMarkdown } from 'notion-to-md';
-import type { BlogPost, NotionPage } from '@/types/blog';
+import { NotionAPI } from 'notion-client';
+import type { BlogPost } from '@/types/blog';
 
-// Initialize Notion client
+// Initialize official Notion client (for database queries)
 function initNotionClient() {
   if (!process.env.NOTION_API_KEY) {
     console.error('NOTION_API_KEY is not set in environment variables');
     throw new Error('NOTION_API_KEY is required');
   }
   return new Client({
-  auth: process.env.NOTION_API_KEY,
-});
+    auth: process.env.NOTION_API_KEY,
+  });
 }
 
 const notion = initNotionClient();
-const n2m = new NotionToMarkdown({ notionClient: notion });
+
+// Initialize unofficial Notion client (for page content - used by react-notion-x)
+const notionAPI = new NotionAPI();
 
 export const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID || '';
 const BLOG_ENVIRONMENT = process.env.BLOG_ENVIRONMENT || 'Staging';
@@ -51,10 +53,26 @@ function parseNotionPage(page: any): BlogPost {
   // Extract tags from multi_select array
   const tags = properties.Tags?.multi_select?.map((tag: any) => tag.name) || [];
   
-  // Extract author from rich_text (default to "Tokamak Network")
-  const author = properties.Author?.rich_text
-    ?.map((t: any) => t.plain_text)
-    .join('') || 'Tokamak Network';
+  // Extract authors - supports comma-separated list in rich_text or multi_select
+  let authors: string[] = [];
+  
+  // Check if Author is multi_select (array of authors)
+  if (properties.Author?.multi_select && properties.Author.multi_select.length > 0) {
+    authors = properties.Author.multi_select.map((a: any) => a.name);
+  } 
+  // Check if Author is rich_text (comma-separated string)
+  else if (properties.Author?.rich_text && properties.Author.rich_text.length > 0) {
+    const authorText = properties.Author.rich_text
+      .map((t: any) => t.plain_text)
+      .join('');
+    // Split by comma and trim whitespace
+    authors = authorText.split(',').map((a: string) => a.trim()).filter((a: string) => a.length > 0);
+  }
+  
+  // Default to "Tokamak Network" if no authors specified
+  if (authors.length === 0) {
+    authors = ['Tokamak Network'];
+  }
   
   // Extract cover image - first check CoverImage property, then page cover
   let coverImage: string | undefined;
@@ -74,7 +92,7 @@ function parseNotionPage(page: any): BlogPost {
     published,
     publishDate,
     tags,
-    author,
+    authors,
     coverImage,
   };
 }
@@ -174,10 +192,11 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
     // Parse post
     const post = parseNotionPage(response.results[0]);
 
-    // Convert page content to markdown
-    const mdBlocks = await n2m.pageToMarkdown(post.id);
-    const mdString = n2m.toMarkdownString(mdBlocks);
-    post.content = mdString.parent;
+    // Fetch page content as recordMap for react-notion-x
+    // Remove dashes from the page ID for the unofficial API
+    const pageId = post.id.replace(/-/g, '');
+    const recordMap = await notionAPI.getPage(pageId);
+    post.recordMap = recordMap;
 
     console.log(`[Notion] Successfully fetched post: ${post.title}`);
     

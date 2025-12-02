@@ -1,3 +1,5 @@
+import type { ExtendedRecordMap } from 'notion-types';
+
 // Full blog post with content (for individual post pages)
 export interface BlogPost {
   id: string;              // Unique identifier (from Notion)
@@ -8,8 +10,8 @@ export interface BlogPost {
   publishDate: string;     // ISO date string
   tags: string[];          // Array of tag names
   coverImage?: string;     // Optional cover image URL
-  author?: string;         // Optional author name
-  content?: string;        // Optional markdown content (for full post)
+  authors: string[];       // Array of author names (supports multiple authors)
+  recordMap?: ExtendedRecordMap; // Notion page record map (for react-notion-x)
 }
 
 // Notion page interface matching Notion's API response
