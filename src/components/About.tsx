@@ -18,8 +18,8 @@ export default function About() {
             What is <span className="text-blue-600">SYB Network</span>?
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            SYB Network is a revolutionary decentralized infrastructure that transforms how digital identity 
-            and trust work in Web3, providing verifiable uniqueness and preventing manipulation at scale.
+            The SYB Network is a sybil-resistant reputation network where users vouch for each other by mutually locking stake, 
+            forming a public graph that rewards connections to credible accounts.
           </p>
         </div>
 
@@ -31,7 +31,7 @@ export default function About() {
               Traditional solutions are centralized, expensive, or easily gamed.
             </p>
             <p className="text-gray-600 text-lg leading-relaxed">
-              SYB Network provides the first truly decentralized solution that ensures one person equals 
+              The SYB Network provides the first truly decentralized solution that ensures one person equals 
               one identity while maintaining privacy and scalability.
             </p>
           </div>
@@ -77,7 +77,7 @@ export default function About() {
           <div className="bg-gray-50 p-8 rounded-2xl border border-gray-200 max-w-4xl mx-auto">
             <h3 className="text-2xl font-bold text-gray-900 mb-4">The Foundation of Web3 Trust</h3>
             <p className="text-gray-600 text-lg leading-relaxed">
-              SYB Network serves as the critical infrastructure for decentralized identity and trust, 
+              The SYB Network serves as the critical infrastructure for decentralized identity and trust, 
               enabling fair participation across governance, DeFi, gaming, and social applications.
             </p>
           </div>

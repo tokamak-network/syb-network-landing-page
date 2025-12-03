@@ -16,7 +16,7 @@ export default function HowItWorks() {
             How <span className="text-blue-600">SYB Network</span> Works
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            SYB Network operates through four core mechanisms that ensure decentralized trust,
+            The SYB Network operates through four core mechanisms that ensure decentralized trust,
             verifiable uniqueness, and secure computation at scale.
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function HowItWorks() {
               </li>
               <li className="flex items-start">
                 <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                <span className="text-sm">The network calculates trust using a PageRank-style algorithm</span>
+                <span className="text-sm">The network calculates trust using a PageRank-style algorithm <span className="text-gray-400">(Coming Soon)</span></span>
               </li>
             </ul>
           </div>
@@ -85,7 +85,7 @@ export default function HowItWorks() {
               </li>
               <li className="flex items-start">
                 <span className="w-1.5 h-1.5 bg-blue-500 rounded-full mt-2 mr-3 flex-shrink-0"></span>
-                <span className="text-sm">Final proofs are posted on-chain for transparency</span>
+                <span className="text-sm">Final proofs are posted on-chain for transparency <span className="text-gray-400">(Coming Soon)</span></span>
               </li>
             </ul>
           </div>

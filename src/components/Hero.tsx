@@ -166,8 +166,8 @@ export default function Hero() {
             </h1>
             
             <p className="hero-subtitle max-w-4xl mx-auto text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl text-gray-700 mb-8 sm:mb-12 leading-relaxed font-light tracking-wide">
-              SYB Network is a fully decentralized, verifiable network that ensures fairness, prevents Sybil attacks, 
-              and secures Web3 identities, powered by <span className="text-blue-600 font-semibold">zk-SNARKs</span> and <span className="text-blue-600 font-semibold">zk-Rollups</span>.
+              The SYB Network is a sybil-resistant reputation network where users vouch for each other by mutually locking stake, 
+              forming a public graph that rewards connections to credible accounts.
             </p>
             
             <div className="hero-buttons flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
@@ -179,15 +179,6 @@ export default function Hero() {
                   </svg>
                 </span>
               </Link>
-              
-              <a href="https://www.notion.so/tokamak/Tokamak-Sybil-Resistance-Overview-03cc941223844f30ba4473e98b1275a7?pvs=4" target="_blank" rel="noopener noreferrer" className="group border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold py-3 px-6 sm:py-4 sm:px-8 lg:py-5 lg:px-10 rounded-xl sm:rounded-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1 backdrop-blur-sm bg-white/80 shadow-lg hover:shadow-xl text-sm sm:text-base">
-                <span className="flex items-center">
-                  Read Documentation
-                  <svg className="w-4 h-4 sm:w-5 sm:h-5 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                  </svg>
-                </span>
-              </a>
             </div>
           </div>
         </div>
@@ -211,7 +202,7 @@ export default function Hero() {
             </div>
             <div className="flex items-center space-x-3 text-gray-700">
               <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-              <span className="text-sm font-medium tracking-wide">Enterprise Ready</span>
+              <span className="text-sm font-medium tracking-wide">Enterprise Ready <span className="text-gray-500">(Coming Soon)</span></span>
             </div>
           </div>
         </div>

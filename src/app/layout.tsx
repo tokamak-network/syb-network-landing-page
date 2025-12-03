@@ -21,7 +21,7 @@ const oswald = Oswald({
 
 export const metadata: Metadata = {
   title: "SYB Network - The Verifiable Decentralized Network of Trust",
-  description: "SYB Network is a fully decentralized, verifiable network that ensures fairness, prevents Sybil attacks, and secures Web3 identities , powered by zk-SNARKs and zk-Rollups.",
+  description: "The SYB Network is a sybil-resistant reputation network where users vouch for each other by mutually locking stake, forming a public graph that rewards connections to credible accounts.",
   keywords: "verifiable decentralized network, Sybil resistance, Web3 identity, uniqueness score, zk-SNARK, zk-Rollup, trustless network, decentralized governance, anti-Sybil protocol, Ethereum scalability",
   authors: [{ name: "SYB Network Team" }],
 };

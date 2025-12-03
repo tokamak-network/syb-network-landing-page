@@ -16,7 +16,7 @@ export default function UseCases() {
             <span className="text-blue-600">Use Cases</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            SYB Network powers diverse applications across Web3, from decentralized governance
+            The SYB Network powers diverse applications across Web3, from decentralized governance
             to secure gaming ecosystems, ensuring authentic participation in every interaction.
           </p>
         </div>
@@ -72,11 +72,16 @@ export default function UseCases() {
             <h3 className="text-2xl font-bold text-gray-900 mb-4">Ready to Implement SYB Network?</h3>
             <p className="text-gray-600 text-lg leading-relaxed mb-6">
               Whether you're building a DAO, launching a social platform, or creating the next big gaming experience,
-              SYB Network provides the trust infrastructure you need.
+              the SYB Network provides the trust infrastructure you need.
             </p>
-            <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105">
+            <a 
+              href="https://www.notion.so/tokamak/Tokamak-Sybil-Resistance-Overview-03cc941223844f30ba4473e98b1275a7?pvs=4" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-xl transition-all duration-300 hover:scale-105 inline-block"
+            >
               Explore Integration Options
-            </button>
+            </a>
           </div>
         </div>
       </div>

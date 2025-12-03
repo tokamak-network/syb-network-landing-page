@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -75,8 +76,8 @@ export default function Navigation() {
               <div className="flex items-center justify-between">
                 {/* Logo */}
                 <div className="flex items-center space-x-3">
-                  <button 
-                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                  <Link 
+                    href="/"
                     className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600 rounded-full flex items-center justify-center hover:scale-105 hover:bg-blue-700 transition-all duration-300 shadow-sm cursor-pointer"
                   >
                     <img 
@@ -84,39 +85,33 @@ export default function Navigation() {
                       alt="SYB Network" 
                       className="h-6 sm:h-8 w-auto"
                     />
-                  </button>
+                  </Link>
                 </div>
 
                 {/* Desktop Navigation Links - Clean Style */}
                 <div className="hidden lg:flex items-center space-x-1 xl:space-x-2">
-                  <a href="/#about" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
-                    Discovery
-                  </a>
-                  <a href="/#how-it-works" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                  <Link href="/about" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                    About
+                  </Link>
+                  <Link href="/protocol" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Protocol
-                  </a>
-                  <a href="/#benefits" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
-                    Advantages
-                  </a>
-                  <a href="/#use-cases" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
-                    Applications
-                  </a>
-                  <a href="/#vision" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
-                    Future
-                  </a>
-                  <a href="/blog" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                  </Link>
+                  <Link href="/use-cases" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                    Use Cases
+                  </Link>
+                  <Link href="/vision" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
+                    Vision
+                  </Link>
+                  <Link href="/blog" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
                     Blog
-                  </a>
-                  <a href="/#connect" className="px-3 xl:px-4 py-2 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-slate-700 hover:shadow-md transition-all duration-300">
-                    Community
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Desktop CTA Button */}
                 <div className="hidden lg:block">
-                  <a href="/explorer" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 xl:px-5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg text-sm">
+                  <Link href="/explorer" className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 xl:px-5 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg text-sm">
                     Network Explorer
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Mobile Menu Button */}
@@ -154,65 +149,51 @@ export default function Navigation() {
         {isMobileMenuOpen && (
           <div className="lg:hidden fixed inset-0 top-20 sm:top-24 bg-white/95 backdrop-blur-md z-40">
             <div className="flex flex-col items-center justify-start pt-12 space-y-6">
-              <a 
-                href="/#about" 
+              <Link 
+                href="/about" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
-                Discovery
-              </a>
-              <a 
-                href="/#how-it-works" 
+                About
+              </Link>
+              <Link 
+                href="/protocol" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
                 Protocol
-              </a>
-              <a 
-                href="/#benefits" 
+              </Link>
+              <Link 
+                href="/use-cases" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
-                Advantages
-              </a>
-              <a 
-                href="/#use-cases" 
+                Use Cases
+              </Link>
+              <Link 
+                href="/vision" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
-                Applications
-              </a>
-              <a 
-                href="/#vision" 
-                onClick={closeMobileMenu}
-                className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
-              >
-                Future
-              </a>
-              <a 
+                Vision
+              </Link>
+              <Link 
                 href="/blog" 
                 onClick={closeMobileMenu}
                 className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
               >
                 Blog
-              </a>
-              <a 
-                href="/#connect" 
-                onClick={closeMobileMenu}
-                className="text-lg font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 py-2"
-              >
-                Community
-              </a>
+              </Link>
               
               {/* Mobile CTA Button */}
               <div className="pt-4">
-                <a 
+                <Link 
                   href="/explorer"
                   onClick={closeMobileMenu}
                   className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 hover:scale-105 hover:shadow-lg"
                 >
                   Network Explorer
-                </a>
+                </Link>
               </div>
             </div>
           </div>

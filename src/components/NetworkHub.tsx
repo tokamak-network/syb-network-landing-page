@@ -23,7 +23,7 @@ export default function NetworkHub() {
             The <span className="text-blue-600">Network Hub</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Experience the heart of SYB Network, a dynamic ecosystem where trust, verification, 
+            Experience the heart of the SYB Network, a dynamic ecosystem where trust, verification, 
             and decentralized connections converge to create the future of digital identity.
           </p>
         </div>

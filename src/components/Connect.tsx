@@ -1,7 +1,7 @@
 'use client';
 
 import useScrollAnimation, { useStaggeredScrollAnimation } from '../hooks/useScrollAnimation';
-import { Book, Github, FileText, MessageSquare, HelpCircle } from 'lucide-react';
+import { Github, MessageSquare } from 'lucide-react';
 
 export default function Connect() {
   const headerRef = useScrollAnimation('animate-fade-in-up', 0);
@@ -18,63 +18,51 @@ export default function Connect() {
             Learn & <span className="text-blue-600">Connect</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            Explore comprehensive resources, connect with our community, and start building with SYB Network's 
+            Explore comprehensive resources, connect with our community, and start building with the SYB Network's 
             cutting-edge decentralized identity infrastructure.
           </p>
         </div>
         
-        <div className="grid lg:grid-cols-2 gap-12 mb-16">
+        <div className="grid lg:grid-cols-2 gap-12 mb-16 items-start">
           <div ref={leftContentRef}>
             <h3 className="text-3xl font-bold text-gray-900 mb-6">Developer Resources</h3>
             <p className="text-gray-600 text-lg leading-relaxed mb-8">
               Access comprehensive documentation, development tools, and research materials to integrate 
-              SYB Network's verifiable identity solutions into your applications.
+              the SYB Network's verifiable identity solutions into your applications.
             </p>
             
-            <div ref={resourceCardsRef} className="grid sm:grid-cols-2 gap-6">
-              <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
-                  <Book className="w-6 h-6 text-blue-600" />
+            <div ref={resourceCardsRef} className="grid sm:grid-cols-2 gap-4">
+              <a 
+                href="https://github.com/tokamak-network/syb-mvp-smart-contracts" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300 group block"
+              >
+                <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                  <Github className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
                 </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-2">Documentation</h4>
-                <p className="text-gray-600 text-sm mb-4">Technical specs, integration guides, and API references.</p>
-                <a href="https://www.notion.so/tokamak/Tokamak-Sybil-Resistance-Overview-03cc941223844f30ba4473e98b1275a7?pvs=4" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
-                  Read Docs →
-                </a>
-              </div>
-              
-              {/* <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
-                  <Book className="w-6 h-6 text-blue-600" />
-                </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-2">Developer Tools</h4>
-                <p className="text-gray-600 text-sm mb-4">SDKs, APIs, and development resources.</p>
-                <button className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
-                  Get Started →
-                </button>
-              </div> */}
-              
-              <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
-                  <Github className="w-6 h-6 text-blue-600" />
-                </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-2">GitHub Repository</h4>
-                <p className="text-gray-600 text-sm mb-4">Source code and contribution guidelines.</p>
-                <button className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
+                <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">SYB MVP Smart Contracts</h4>
+                <p className="text-gray-600 mb-4">MVP version smart contracts on Sepolia</p>
+                <span className="text-blue-600 font-semibold inline-flex items-center group-hover:translate-x-1 transition-transform">
                   View Code →
-                </button>
-              </div>
-              
-              {/* <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
-                  <FileText className="w-6 h-6 text-blue-600" />
+                </span>
+              </a>
+
+              <a 
+                href="https://github.com/tokamak-network/syb-jupyter-notebooks" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300 group block"
+              >
+                <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center group-hover:bg-blue-600 transition-colors">
+                  <Github className="w-6 h-6 text-blue-600 group-hover:text-white transition-colors" />
                 </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-2">Research Papers</h4>
-                <p className="text-gray-600 text-sm mb-4">Latest research on zero-knowledge proofs.</p>
-                <button className="text-blue-600 hover:text-blue-700 font-semibold transition-colors duration-300">
-                  View Research →
-                </button>
-              </div> */}
+                <h4 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">SYB Jupyter Notebooks</h4>
+                <p className="text-gray-600 mb-4">Interactive notebooks and simulations</p>
+                <span className="text-blue-600 font-semibold inline-flex items-center group-hover:translate-x-1 transition-transform">
+                  View Code →
+                </span>
+              </a>
             </div>
           </div>
           
@@ -85,7 +73,7 @@ export default function Connect() {
               of decentralized identity and trust infrastructure.
             </p>
             
-            <div ref={communityCardsRef} className="space-y-4">
+            <div ref={communityCardsRef}>
               <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
                 <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
                   <MessageSquare className="w-6 h-6 text-blue-600" />
@@ -96,17 +84,6 @@ export default function Connect() {
                   Join Telegram
                 </a>
               </div>
-              
-              {/* <div className="scroll-stagger-item bg-white p-6 rounded-xl border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-300">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg mb-4 flex items-center justify-center">
-                  <HelpCircle className="w-6 h-6 text-blue-600" />
-                </div>
-                <h4 className="text-lg font-bold text-gray-900 mb-2">Technical Support</h4>
-                <p className="text-gray-600 mb-4">Get help with integration and technical questions.</p>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300">
-                  Get Support
-                </button>
-              </div> */}
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ export default function Benefits() {
             Why Choose <span className="text-blue-600">SYB Network</span>?
           </h2>
           <p className="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-            SYB Network delivers unmatched security, transparency, and fairness through cutting-edge
+            The SYB Network delivers unmatched security, transparency, and fairness through cutting-edge
             cryptographic technologies and decentralized architecture.
           </p>
         </div>
