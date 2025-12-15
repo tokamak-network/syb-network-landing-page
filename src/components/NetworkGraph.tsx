@@ -84,13 +84,49 @@ export default function NetworkGraph({
       }
     }));
 
-    // Prepare edges
-    const edges = vouches.map(vouch => ({
+    // Prepare edges - merge bidirectional vouches into single edges
+    // This reduces visual noise from duplicate arrows
+    const edgeMap = new Map<string, {
+      source: string;
+      target: string;
+      isBidirectional: boolean;
+      blockTimestamp: string;
+      id: string;
+    }>();
+
+    vouches.forEach(vouch => {
+      const source = vouch.from.id;
+      const target = vouch.to.id;
+      
+      // Create a consistent key for the edge pair (alphabetically sorted)
+      const [first, second] = [source, target].sort();
+      const pairKey = `${first}-${second}`;
+      
+      const existing = edgeMap.get(pairKey);
+      
+      if (existing) {
+        // Edge pair already exists - mark as bidirectional
+        existing.isBidirectional = true;
+      } else {
+        // New edge pair
+        edgeMap.set(pairKey, {
+          source,
+          target,
+          isBidirectional: false,
+          blockTimestamp: vouch.blockTimestamp,
+          id: vouch.id
+        });
+      }
+    });
+
+    // Convert to Cytoscape edges format
+    const edges = Array.from(edgeMap.values()).map(edge => ({
       data: {
-        id: vouch.id,
-        source: vouch.from.id,
-        target: vouch.to.id,
-        blockTimestamp: vouch.blockTimestamp
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+        isBidirectional: edge.isBidirectional,
+        blockTimestamp: edge.blockTimestamp
       }
     }));
 
@@ -165,12 +201,21 @@ export default function NetworkGraph({
           selector: 'edge',
           style: {
             'width': 2,
-            'line-color': '#cbd5e1',
-            'target-arrow-color': '#cbd5e1',
-            'target-arrow-shape': 'triangle',
-            'curve-style': 'bezier',
-            'arrow-scale': 1,
-            'opacity': 0.7
+            'line-color': '#94a3b8',
+            'target-arrow-color': '#94a3b8',
+            'target-arrow-shape': 'triangle-backcurve',
+            'curve-style': 'straight',
+            'arrow-scale': 0.8,
+            'opacity': 0.6
+          }
+        },
+        {
+          selector: 'edge[isBidirectional = true]',
+          style: {
+            'source-arrow-shape': 'triangle-backcurve',
+            'source-arrow-color': '#94a3b8',
+            'mid-target-arrow-shape': 'none',
+            'mid-source-arrow-shape': 'none'
           }
         },
         {
@@ -179,6 +224,7 @@ export default function NetworkGraph({
             'width': 3,
             'line-color': '#06b6d4',
             'target-arrow-color': '#06b6d4',
+            'source-arrow-color': '#06b6d4',
             'opacity': 1,
             'z-index': 15
           }
@@ -187,16 +233,27 @@ export default function NetworkGraph({
       layout: {
         name: 'cose',
         animate: true,
-        animationDuration: 1000,
-        nodeRepulsion: 8000,
-        idealEdgeLength: 100,
-        edgeElasticity: 100,
-        nestingFactor: 5,
-        gravity: 80,
-        numIter: 1000,
+        animationDuration: 800,
+        nodeRepulsion: (node: any) => {
+          // Scale repulsion based on network size for better distribution
+          const nodeCount = users.length;
+          return nodeCount > 50 ? 12000 : nodeCount > 20 ? 10000 : 8000;
+        },
+        idealEdgeLength: (edge: any) => {
+          // Shorter edges for bidirectional connections
+          return edge.data('isBidirectional') ? 80 : 120;
+        },
+        edgeElasticity: 80,
+        nestingFactor: 1.2,
+        gravity: 0.25,
+        numIter: users.length > 100 ? 500 : 1000, // Fewer iterations for large networks
         initialTemp: 200,
         coolingFactor: 0.95,
-        minTemp: 1.0
+        minTemp: 1.0,
+        randomize: false,
+        fit: true,
+        padding: 50,
+        nodeDimensionsIncludeLabels: true
       },
       minZoom: 0.1,
       maxZoom: 3,
