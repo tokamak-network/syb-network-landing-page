@@ -84,49 +84,13 @@ export default function NetworkGraph({
       }
     }));
 
-    // Prepare edges - merge bidirectional vouches into single edges
-    // This reduces visual noise from duplicate arrows
-    const edgeMap = new Map<string, {
-      source: string;
-      target: string;
-      isBidirectional: boolean;
-      blockTimestamp: string;
-      id: string;
-    }>();
-
-    vouches.forEach(vouch => {
-      const source = vouch.from.id;
-      const target = vouch.to.id;
-      
-      // Create a consistent key for the edge pair (alphabetically sorted)
-      const [first, second] = [source, target].sort();
-      const pairKey = `${first}-${second}`;
-      
-      const existing = edgeMap.get(pairKey);
-      
-      if (existing) {
-        // Edge pair already exists - mark as bidirectional
-        existing.isBidirectional = true;
-      } else {
-        // New edge pair
-        edgeMap.set(pairKey, {
-          source,
-          target,
-          isBidirectional: false,
-          blockTimestamp: vouch.blockTimestamp,
-          id: vouch.id
-        });
-      }
-    });
-
-    // Convert to Cytoscape edges format
-    const edges = Array.from(edgeMap.values()).map(edge => ({
+    // Prepare edges
+    const edges = vouches.map(vouch => ({
       data: {
-        id: edge.id,
-        source: edge.source,
-        target: edge.target,
-        isBidirectional: edge.isBidirectional,
-        blockTimestamp: edge.blockTimestamp
+        id: vouch.id,
+        source: vouch.from.id,
+        target: vouch.to.id,
+        blockTimestamp: vouch.blockTimestamp
       }
     }));
 
@@ -210,19 +174,11 @@ export default function NetworkGraph({
           }
         },
         {
-          selector: 'edge[isBidirectional = true]',
-          style: {
-            'source-arrow-shape': 'triangle',
-            'source-arrow-color': '#cbd5e1'
-          }
-        },
-        {
           selector: 'edge.highlighted',
           style: {
             'width': 3,
             'line-color': '#06b6d4',
             'target-arrow-color': '#06b6d4',
-            'source-arrow-color': '#06b6d4',
             'opacity': 1,
             'z-index': 15
           }
