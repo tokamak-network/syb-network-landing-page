@@ -84,8 +84,30 @@ export default function NetworkGraph({
       }
     }));
 
-    // Prepare edges
-    const edges = vouches.map(vouch => ({
+    // Prepare edges - deduplicate by source-target pair
+    // First, let's check for duplicates
+    const edgeMap = new Map<string, typeof vouches[0]>();
+    const duplicates: string[] = [];
+    
+    vouches.forEach(vouch => {
+      const edgeKey = `${vouch.from.id}->${vouch.to.id}`;
+      if (edgeMap.has(edgeKey)) {
+        duplicates.push(edgeKey);
+        console.warn(`Duplicate vouch found: ${edgeKey}`, {
+          existing: edgeMap.get(edgeKey),
+          duplicate: vouch
+        });
+      } else {
+        edgeMap.set(edgeKey, vouch);
+      }
+    });
+    
+    if (duplicates.length > 0) {
+      console.warn(`Found ${duplicates.length} duplicate vouches:`, duplicates);
+    }
+    
+    // Use deduplicated edges
+    const edges = Array.from(edgeMap.values()).map(vouch => ({
       data: {
         id: vouch.id,
         source: vouch.from.id,
