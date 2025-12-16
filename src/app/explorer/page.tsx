@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { useAtom } from 'jotai';
 import { useQuery } from '@apollo/client/react';
 import { GET_NETWORK_GRAPH, GET_USER_DETAILS, GET_TRANSACTIONS } from '@/lib/graphql-queries';
@@ -15,8 +15,6 @@ import {
   ArrowRight, 
   RefreshCw, 
   Search,
-  TrendingUp,
-  Award,
   Loader2,
   FileText,
   ExternalLink,
@@ -58,6 +56,18 @@ export default function ExplorerPage() {
       skip: (txPage - 1) * txPageSize 
     }
   });
+
+  // Deduplicate transactions by from->to pair (keep first occurrence based on timestamp desc)
+  const deduplicatedTransactions = useMemo(() => {
+    if (!txData?.vouches) return [];
+    const seen = new Set<string>();
+    return txData.vouches.filter(vouch => {
+      const key = `${vouch.from.id}->${vouch.to.id}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [txData?.vouches]);
 
   const handleNodeClick = useCallback((userId: string) => {
     setSelectedNode(userId);
@@ -110,8 +120,8 @@ export default function ExplorerPage() {
     return `${seconds} sec${seconds > 1 ? 's' : ''} ago`;
   };
 
-  // Pagination helpers
-  const hasNextPage = txData?.vouches && txData.vouches.length === txPageSize;
+  // Pagination helpers - use deduplicated transactions length
+  const hasNextPage = deduplicatedTransactions.length === txPageSize;
   const hasPrevPage = txPage > 1;
 
   const handleNextPage = () => {
@@ -305,7 +315,7 @@ export default function ExplorerPage() {
                 </div>
               ) : data?.network ? (
                 <div className="pb-3 border-b border-gray-200">
-                  <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-3 sm:gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
                     <div>
                       <div className="text-gray-500 text-[10px] sm:text-xs font-medium mb-0.5">Total Users</div>
                       <div className="text-gray-900 font-bold text-base sm:text-lg">{data.network.totalUsers}</div>
@@ -314,19 +324,6 @@ export default function ExplorerPage() {
                     <div>
                       <div className="text-gray-500 text-[10px] sm:text-xs font-medium mb-0.5">Total Vouches</div>
                       <div className="text-gray-900 font-bold text-base sm:text-lg">{data.network.totalVouches}</div>
-                    </div>
-
-                    <div>
-                      <div className="text-gray-500 text-[10px] sm:text-xs font-medium mb-0.5">Bootstrap</div>
-                      <div className="text-gray-900 font-bold text-xs sm:text-sm">
-                        {data.network.bootstrapComplete ? (
-                          <span className="inline-flex items-center gap-1 text-green-600">
-                            <span className="text-base sm:text-lg">✓</span> Complete
-                          </span>
-                        ) : (
-                          'In Progress'
-                        )}
-                      </div>
                     </div>
 
                     <div>
@@ -460,7 +457,7 @@ export default function ExplorerPage() {
                       </button>
                     </div>
                   </div>
-                ) : txData?.vouches && txData.vouches.length > 0 ? (
+                ) : deduplicatedTransactions.length > 0 ? (
                   <>
                     {/* Table */}
                     <div className="overflow-x-auto">
@@ -491,7 +488,7 @@ export default function ExplorerPage() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-100">
-                        {txData.vouches.map((vouch) => (
+                        {deduplicatedTransactions.map((vouch) => (
                           <tr key={vouch.id} className="hover:bg-gray-50 transition-colors">
                             <td className="px-4 py-3">
                               <a
@@ -511,56 +508,34 @@ export default function ExplorerPage() {
                               {formatTimeAgo(vouch.blockTimestamp)}
                             </td>
                             <td className="px-4 py-3">
-                              <div className="flex flex-col gap-1">
-                                <a
-                                  href={getEtherscanUrl(vouch.from.id, 'address')}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-blue-600 hover:text-blue-700 font-mono text-xs inline-flex items-center gap-1"
-                                >
-                                  {formatAddress(vouch.from.id)}
-                                  <ExternalLink size={11} />
-                                </a>
-                                {vouch.from.isBootstrapNode && (
-                                  <span className="inline-flex items-center gap-1 text-[10px] text-yellow-700">
-                                    <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
-                                    Bootstrap
-                                  </span>
-                                )}
-                              </div>
+                              <a
+                                href={getEtherscanUrl(vouch.from.id, 'address')}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:text-blue-700 font-mono text-xs inline-flex items-center gap-1"
+                              >
+                                {formatAddress(vouch.from.id)}
+                                <ExternalLink size={11} />
+                              </a>
                             </td>
                             <td className="px-4 py-3 text-center">
                               <ArrowRight size={14} className="text-gray-400 mx-auto" />
                             </td>
                             <td className="px-4 py-3">
-                              <div className="flex flex-col gap-1">
-                                <a
-                                  href={getEtherscanUrl(vouch.to.id, 'address')}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="text-blue-600 hover:text-blue-700 font-mono text-xs inline-flex items-center gap-1"
-                                >
-                                  {formatAddress(vouch.to.id)}
-                                  <ExternalLink size={11} />
-                                </a>
-                                {vouch.to.isBootstrapNode && (
-                                  <span className="inline-flex items-center gap-1 text-[10px] text-yellow-700">
-                                    <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>
-                                    Bootstrap
-                                  </span>
-                                )}
-                              </div>
+                              <a
+                                href={getEtherscanUrl(vouch.to.id, 'address')}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-blue-600 hover:text-blue-700 font-mono text-xs inline-flex items-center gap-1"
+                              >
+                                {formatAddress(vouch.to.id)}
+                                <ExternalLink size={11} />
+                              </a>
                             </td>
                             <td className="px-4 py-3 hidden lg:table-cell">
-                              <span className={`inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[11px] font-medium ${
-                                vouch.isBootstrapVouch
-                                  ? 'bg-yellow-50 text-yellow-700 border border-yellow-200'
-                                  : 'bg-green-50 text-green-700 border border-green-200'
-                              }`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${
-                                  vouch.isBootstrapVouch ? 'bg-yellow-500' : 'bg-green-500'
-                                }`}></span>
-                                {vouch.isBootstrapVouch ? 'Bootstrap' : 'Vouch'}
+                              <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[11px] font-medium bg-green-50 text-green-700 border border-green-200">
+                                <span className="w-1.5 h-1.5 rounded-full bg-green-500"></span>
+                                Vouch
                               </span>
                             </td>
                           </tr>
@@ -576,7 +551,7 @@ export default function ExplorerPage() {
                         <div className="text-xs text-gray-600">
                           Showing <span className="font-semibold text-gray-900">{(txPage - 1) * txPageSize + 1}</span> to{' '}
                           <span className="font-semibold text-gray-900">
-                            {(txPage - 1) * txPageSize + (txData.vouches?.length || 0)}
+                            {(txPage - 1) * txPageSize + deduplicatedTransactions.length}
                           </span>{' '}
                           transactions
                         </div>
@@ -734,14 +709,6 @@ export default function ExplorerPage() {
               <span className="text-gray-700">Building Trust (0-39)</span>
             </div>
             <div className="hidden sm:flex items-center space-x-2">
-              <div className="w-4 h-4 rounded-full bg-gray-300 border-2 border-green-600 border-double"></div>
-              <span className="text-gray-700">Double Border = Staked</span>
-            </div>
-            <div className="hidden sm:flex items-center space-x-2">
-              <div className="w-4 h-4 rounded-full bg-gray-300 border-2 border-yellow-500"></div>
-              <span className="text-gray-700">Gold Border = Bootstrap</span>
-            </div>
-            <div className="hidden sm:flex items-center space-x-2">
               <div className="w-6 h-0.5 bg-gray-400"></div>
               <span className="text-gray-700">Vouch Direction</span>
             </div>
@@ -750,7 +717,7 @@ export default function ExplorerPage() {
             <p className="font-medium text-gray-700">Score: 0-100 (Higher = More Trust)</p>
             <p>Click nodes to view details</p>
             <p>Scroll to zoom, drag to pan</p>
-            <p>Hover over nodes to see stake info</p>
+            <p>Hover over nodes for quick info</p>
           </div>
         </div>
       )}

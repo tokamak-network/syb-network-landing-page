@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { UserDetails } from '@/types/network';
 import { X, ArrowRight, ArrowLeft, TrendingUp, Clock, DollarSign, CheckCircle2, XCircle } from 'lucide-react';
 
@@ -12,6 +13,30 @@ interface UserDetailPanelProps {
 }
 
 export default function UserDetailPanel({ user, onClose, onUserClick, globalMinScore, globalMaxScore }: UserDetailPanelProps) {
+  // Deduplicate incoming vouches by from.id (keep first occurrence)
+  const deduplicatedIncomingVouches = useMemo(() => {
+    if (!user) return [];
+    const seen = new Set<string>();
+    return user.incomingVouches.filter(vouch => {
+      const key = vouch.from.id;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [user]);
+
+  // Deduplicate outgoing vouches by to.id (keep first occurrence)
+  const deduplicatedOutgoingVouches = useMemo(() => {
+    if (!user) return [];
+    const seen = new Set<string>();
+    return user.outgoingVouches.filter(vouch => {
+      const key = vouch.to.id;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }, [user]);
+
   if (!user) return null;
 
   const formatAddress = (address: string) => {
@@ -75,14 +100,7 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
       <div className="sticky top-0 bg-gradient-to-r from-blue-600 to-blue-700 p-3 text-white shadow-lg z-[110] rounded-t-xl">
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <div className="flex items-center space-x-2 mb-1.5">
-              {user.isBootstrapNode && (
-                <span className="px-1.5 py-0.5 bg-yellow-400 text-yellow-900 text-[10px] font-bold rounded-full shadow-sm">
-                  BOOTSTRAP
-                </span>
-              )}
-              <h2 className="text-sm font-bold">Node Details</h2>
-            </div>
+            <h2 className="text-sm font-bold mb-1.5">Node Details</h2>
             <button
               onClick={() => copyToClipboard(user.id)}
               className="text-[11px] font-mono bg-white/20 backdrop-blur-sm px-2 py-1 rounded-lg hover:bg-white/30 transition-all shadow-sm"
@@ -166,7 +184,7 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
               <ArrowLeft size={14} />
               <span className="text-[10px] font-semibold uppercase">Incoming</span>
             </div>
-            <div className="text-xl font-bold text-gray-800">{user.inCount}</div>
+            <div className="text-xl font-bold text-gray-800">{deduplicatedIncomingVouches.length}</div>
             <div className="text-[8px] text-gray-500 mt-0.5">vouches received</div>
           </div>
 
@@ -175,7 +193,7 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
               <ArrowRight size={14} />
               <span className="text-[10px] font-semibold uppercase">Outgoing</span>
             </div>
-            <div className="text-xl font-bold text-gray-800">{user.outCount}</div>
+            <div className="text-xl font-bold text-gray-800">{deduplicatedOutgoingVouches.length}</div>
             <div className="text-[8px] text-gray-500 mt-0.5">vouches given</div>
           </div>
         </div>
@@ -199,14 +217,14 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
               <ArrowLeft className="text-blue-600" size={14} />
             </div>
             <h3 className="text-xs font-bold text-gray-800">
-              Incoming Vouches ({user.incomingVouches.length})
+              Incoming Vouches ({deduplicatedIncomingVouches.length})
             </h3>
           </div>
           <div className="space-y-1.5 max-h-64 overflow-y-auto">
-            {user.incomingVouches.length === 0 ? (
+            {deduplicatedIncomingVouches.length === 0 ? (
               <p className="text-[10px] text-gray-500 italic p-2 bg-white/50 rounded-lg">No incoming vouches yet</p>
             ) : (
-              user.incomingVouches.map((vouch) => (
+              deduplicatedIncomingVouches.map((vouch) => (
                 <button
                   key={vouch.id}
                   onClick={() => onUserClick && onUserClick(vouch.from.id)}
@@ -216,18 +234,11 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
                     <span className="text-[10px] font-mono text-gray-700 group-hover:text-blue-600">
                       {formatAddress(vouch.from.id)}
                     </span>
-                    <div className="flex items-center gap-1">
-                      {vouch.from.hasMinimumStake && (
-                        <span title="Staked">
-                          <CheckCircle2 size={10} className="text-green-600" />
-                        </span>
-                      )}
-                      {vouch.from.isBootstrapNode && (
-                        <span className="px-1 py-0.5 bg-yellow-100 text-yellow-700 text-[8px] font-bold rounded">
-                          BOOT
-                        </span>
-                      )}
-                    </div>
+                    {vouch.from.hasMinimumStake && (
+                      <span title="Staked">
+                        <CheckCircle2 size={10} className="text-green-600" />
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center justify-between text-[9px] text-gray-500">
                     <span>Score: {formatScore(vouch.from.score)}</span>
@@ -248,14 +259,14 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
               <ArrowRight className="text-blue-600" size={14} />
             </div>
             <h3 className="text-xs font-bold text-gray-800">
-              Outgoing Vouches ({user.outgoingVouches.length})
+              Outgoing Vouches ({deduplicatedOutgoingVouches.length})
             </h3>
           </div>
           <div className="space-y-1.5 max-h-64 overflow-y-auto">
-            {user.outgoingVouches.length === 0 ? (
+            {deduplicatedOutgoingVouches.length === 0 ? (
               <p className="text-[10px] text-gray-500 italic p-2 bg-white/50 rounded-lg">No outgoing vouches yet</p>
             ) : (
-              user.outgoingVouches.map((vouch) => (
+              deduplicatedOutgoingVouches.map((vouch) => (
                 <button
                   key={vouch.id}
                   onClick={() => onUserClick && onUserClick(vouch.to.id)}
@@ -265,18 +276,11 @@ export default function UserDetailPanel({ user, onClose, onUserClick, globalMinS
                     <span className="text-[10px] font-mono text-gray-700 group-hover:text-blue-600">
                       {formatAddress(vouch.to.id)}
                     </span>
-                    <div className="flex items-center gap-1">
-                      {vouch.to.hasMinimumStake && (
-                        <span title="Staked">
-                          <CheckCircle2 size={10} className="text-green-600" />
-                        </span>
-                      )}
-                      {vouch.to.isBootstrapNode && (
-                        <span className="px-1 py-0.5 bg-yellow-100 text-yellow-700 text-[8px] font-bold rounded">
-                          BOOT
-                        </span>
-                      )}
-                    </div>
+                    {vouch.to.hasMinimumStake && (
+                      <span title="Staked">
+                        <CheckCircle2 size={10} className="text-green-600" />
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center justify-between text-[9px] text-gray-500">
                     <span>Score: {formatScore(vouch.to.score)}</span>

@@ -84,7 +84,36 @@ export default function NetworkGraph({
       return '#ef4444'; // Red for lower scores (0-40)
     };
 
-    // Prepare nodes - uniform size, no special borders
+    // Prepare edges - deduplicate by source-target pair FIRST
+    // so we can calculate accurate in/out counts
+    const edgeMap = new Map<string, typeof vouches[0]>();
+    const duplicates: string[] = [];
+    
+    vouches.forEach(vouch => {
+      const edgeKey = `${vouch.from.id}->${vouch.to.id}`;
+      if (edgeMap.has(edgeKey)) {
+        duplicates.push(edgeKey);
+      } else {
+        edgeMap.set(edgeKey, vouch);
+      }
+    });
+
+    if (duplicates.length > 0) {
+      console.warn(`Found ${duplicates.length} duplicate vouches`);
+    }
+
+    // Calculate deduplicated in/out counts for each user
+    const inCountMap = new Map<string, number>();
+    const outCountMap = new Map<string, number>();
+    
+    edgeMap.forEach((vouch) => {
+      // Count outgoing for source
+      outCountMap.set(vouch.from.id, (outCountMap.get(vouch.from.id) || 0) + 1);
+      // Count incoming for target
+      inCountMap.set(vouch.to.id, (inCountMap.get(vouch.to.id) || 0) + 1);
+    });
+
+    // Prepare nodes - uniform size, no special borders, with deduplicated counts
     const nodes = users.map(user => ({
       data: {
         id: user.id,
@@ -95,35 +124,13 @@ export default function NetworkGraph({
         isBootstrapNode: user.isBootstrapNode,
         hasMinimumStake: user.hasMinimumStake,
         stakedAmount: user.stakedAmount,
-        inCount: user.inCount,
-        outCount: user.outCount,
+        inCount: inCountMap.get(user.id) || 0,
+        outCount: outCountMap.get(user.id) || 0,
         size: NODE_SIZE,
         color: getScoreColor(user.score)
       }
     }));
 
-    // Prepare edges - deduplicate by source-target pair
-    // First, let's check for duplicates
-    const edgeMap = new Map<string, typeof vouches[0]>();
-    const duplicates: string[] = [];
-    
-    vouches.forEach(vouch => {
-      const edgeKey = `${vouch.from.id}->${vouch.to.id}`;
-      if (edgeMap.has(edgeKey)) {
-        duplicates.push(edgeKey);
-        console.warn(`Duplicate vouch found: ${edgeKey}`, {
-          existing: edgeMap.get(edgeKey),
-          duplicate: vouch
-        });
-      } else {
-        edgeMap.set(edgeKey, vouch);
-      }
-    });
-    
-    if (duplicates.length > 0) {
-      console.warn(`Found ${duplicates.length} duplicate vouches:`, duplicates);
-    }
-    
     // Use deduplicated edges
     const edges = Array.from(edgeMap.values()).map(vouch => ({
       data: {
