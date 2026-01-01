@@ -1,7 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { User, Vouch } from '@/types/network';
+import Jazzicon from './Jazzicon';
+import type { ENSData } from '@/types/identity';
 
 // Dynamic import to avoid SSR issues
 let cytoscape: any = null;
@@ -31,6 +33,9 @@ interface TooltipState {
   } | null;
 }
 
+// ENS cache for tooltips
+const ensCache = new Map<string, ENSData | null>();
+
 export default function NetworkGraph({ 
   users, 
   vouches, 
@@ -48,6 +53,27 @@ export default function NetworkGraph({
     y: 0,
     data: null
   });
+  const [tooltipEns, setTooltipEns] = useState<ENSData | null>(null);
+
+  // Fetch ENS data for tooltip
+  const fetchEnsForTooltip = useCallback(async (address: string) => {
+    // Check cache first
+    if (ensCache.has(address)) {
+      setTooltipEns(ensCache.get(address) || null);
+      return;
+    }
+
+    try {
+      const response = await fetch(`/api/ens/${address}`);
+      const data = await response.json();
+      const ensData = data.success ? data.data : null;
+      ensCache.set(address, ensData);
+      setTooltipEns(ensData);
+    } catch {
+      ensCache.set(address, null);
+      setTooltipEns(null);
+    }
+  }, []);
 
   // Ensure component is mounted on client
   useEffect(() => {
@@ -272,6 +298,9 @@ export default function NetworkGraph({
             stakedAmount: data.stakedAmount
           }
         });
+        
+        // Fetch ENS data for this address
+        fetchEnsForTooltip(data.fullAddress);
       }
     });
 
@@ -279,6 +308,7 @@ export default function NetworkGraph({
       const node = event.target;
       node.removeClass('hovered');
       setTooltip(prev => ({ ...prev, visible: false }));
+      setTooltipEns(null);
     });
     
     // Hide tooltip when panning/zooming
@@ -294,7 +324,7 @@ export default function NetworkGraph({
         cy.destroy();
       }
     };
-  }, [users, vouches, onNodeClick, isMounted]);
+  }, [users, vouches, onNodeClick, isMounted, fetchEnsForTooltip]);
 
   // Update selection highlight
   useEffect(() => {
@@ -420,10 +450,29 @@ export default function NetworkGraph({
             opacity: tooltip.visible ? 1 : 0
           }}
         >
-          <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-3 min-w-[200px]">
-            {/* Address */}
-            <div className="font-mono text-xs text-gray-600 bg-gray-100 px-2 py-1 rounded mb-2 text-center">
-              {formatAddress(tooltip.data.address)}
+          <div className="bg-white rounded-xl shadow-xl border border-gray-200 p-3 min-w-[220px]">
+            {/* Avatar and Identity */}
+            <div className="flex items-center gap-2 mb-2 pb-2 border-b border-gray-100">
+              {tooltipEns?.avatar ? (
+                <img 
+                  src={tooltipEns.avatar} 
+                  alt="" 
+                  className="w-8 h-8 rounded-full object-cover"
+                  onError={(e) => { e.currentTarget.style.display = 'none'; }}
+                />
+              ) : (
+                <Jazzicon address={tooltip.data.address} size={32} />
+              )}
+              <div className="flex-1 min-w-0">
+                {tooltipEns?.ensName ? (
+                  <>
+                    <div className="text-sm font-semibold text-gray-800 truncate">{tooltipEns.ensName}</div>
+                    <div className="font-mono text-[10px] text-gray-500 truncate">{formatAddress(tooltip.data.address)}</div>
+                  </>
+                ) : (
+                  <div className="font-mono text-xs text-gray-600">{formatAddress(tooltip.data.address)}</div>
+                )}
+              </div>
             </div>
             
             {/* Trust Score */}
