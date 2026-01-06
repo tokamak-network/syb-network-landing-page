@@ -4,15 +4,67 @@ import Footer from '@/components/Footer';
 import BlogList from '@/components/BlogList';
 import { getBlogPosts } from '@/lib/notion';
 import type { Metadata } from 'next';
-import { Search } from 'lucide-react';
+import { siteConfig, getWebPageSchema } from '@/lib/seo-config';
 
 export const metadata: Metadata = {
-  title: 'Blog - SYB Network',
-  description: 'Latest insights, updates, and technical articles about the SYB Network',
+  title: 'Blog - Insights & Updates',
+  description: 'Latest insights, technical deep-dives, and updates from the SYB Network team. Learn about sybil resistance, Web3 identity, decentralized trust, and blockchain technology.',
+  keywords: [
+    ...siteConfig.keywords,
+    'SYB blog',
+    'Web3 blog',
+    'blockchain insights',
+    'decentralized identity articles',
+    'crypto blog',
+    'Sybil resistance articles',
+    'technical deep-dives',
+  ],
+  openGraph: {
+    title: 'SYB Network Blog - Insights & Technical Articles',
+    description: 'Latest insights, updates, and technical articles about sybil-resistant identity.',
+    url: `${siteConfig.url}/blog`,
+    type: 'website',
+    images: [
+      {
+        url: '/assets/og/og-blog.png',
+        width: 1200,
+        height: 630,
+        alt: 'SYB Network Blog',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'SYB Network Blog',
+    description: 'Latest insights, updates, and technical articles.',
+    images: ['/assets/og/og-blog.png'],
+  },
+  alternates: {
+    canonical: '/blog',
+  },
 };
 
 // Revalidate every 30 minutes
 export const revalidate = 1800;
+
+// JSON-LD structured data for blog listing
+const blogPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Blog',
+  name: 'SYB Network Blog',
+  description: 'Latest insights, technical deep-dives, and updates from the SYB Network team.',
+  url: `${siteConfig.url}/blog`,
+  publisher: {
+    '@type': 'Organization',
+    name: siteConfig.name,
+    url: siteConfig.url,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${siteConfig.url}/assets/brand/syb-logo-light.png`,
+    },
+  },
+  inLanguage: 'en-US',
+};
 
 function BlogSkeleton() {
   return (
@@ -60,6 +112,14 @@ async function BlogContent() {
 export default function BlogPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(blogPageSchema),
+        }}
+      />
+      
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {/* Gradient Orbs */}

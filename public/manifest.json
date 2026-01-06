@@ -1,0 +1,28 @@
+{
+  "name": "SYB Network",
+  "short_name": "SYB",
+  "description": "The Verifiable Decentralized Network of Trust - Sybil-resistant reputation through mutual stake vouching",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/assets/brand/syb-logo-dark.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/brand/syb-logo-light.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["blockchain", "finance", "productivity"],
+  "lang": "en-US",
+  "dir": "ltr"
+}
+

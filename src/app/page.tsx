@@ -5,6 +5,43 @@ import Link from 'next/link';
 import { Shield, Layers, Target, Network, ArrowRight, Calendar, User } from 'lucide-react';
 import { getRecentBlogPosts } from '@/lib/notion';
 import type { BlogPost } from '@/types/blog';
+import type { Metadata } from 'next';
+import { siteConfig, getWebPageSchema } from '@/lib/seo-config';
+
+export const metadata: Metadata = {
+  title: `${siteConfig.name} - The Verifiable Decentralized Network of Trust`,
+  description: 'Build sybil-resistant reputation through mutual stake vouching. SYB Network creates a verifiable web-of-trust where users vouch for each other, forming a public graph that rewards connections to credible accounts.',
+  keywords: [
+    ...siteConfig.keywords,
+    'mutual stake vouching',
+    'reputation network',
+    'Web3 trust',
+    'decentralized vouching',
+  ],
+  openGraph: {
+    title: `${siteConfig.name} - The Verifiable Decentralized Network of Trust`,
+    description: 'Build sybil-resistant reputation through mutual stake vouching. Create verifiable trust in Web3.',
+    url: siteConfig.url,
+    type: 'website',
+    images: [
+      {
+        url: '/assets/og/og-home.png',
+        width: 1200,
+        height: 630,
+        alt: 'SYB Network - Sybil-Resistant Reputation Network',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: `${siteConfig.name} - Verifiable Decentralized Trust`,
+    description: 'Build sybil-resistant reputation through mutual stake vouching.',
+    images: ['/assets/og/og-home.png'],
+  },
+  alternates: {
+    canonical: '/',
+  },
+};
 
 function OverviewCards() {
   const cards = [

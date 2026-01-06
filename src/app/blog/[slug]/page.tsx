@@ -7,6 +7,7 @@ import { getBlogPostBySlug, getAllBlogSlugs } from '@/lib/notion';
 import { Calendar, ArrowLeft, Tag, User } from 'lucide-react';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import { siteConfig, getBlogPostSchema } from '@/lib/seo-config';
 
 // Revalidate every hour
 export const revalidate = 3600;
@@ -21,17 +22,66 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!post) {
     return {
-      title: 'Post Not Found - SYB Network',
+      title: 'Post Not Found',
+      description: 'The requested blog post could not be found.',
+      robots: {
+        index: false,
+        follow: false,
+      },
     };
   }
 
+  const postUrl = `${siteConfig.url}/blog/${slug}`;
+  const imageUrl = post.coverImage || '/assets/og/og-blog.png';
+
   return {
-    title: `${post.title} - SYB Network Blog`,
-    description: post.description,
+    title: post.title,
+    description: post.description || `Read "${post.title}" on the SYB Network blog.`,
+    keywords: [
+      ...siteConfig.keywords,
+      ...(post.tags || []),
+      'SYB blog post',
+    ],
+    authors: post.authors?.map((name) => ({ name })) || siteConfig.authors,
     openGraph: {
+      type: 'article',
       title: post.title,
       description: post.description,
-      images: post.coverImage ? [post.coverImage] : [],
+      url: postUrl,
+      siteName: siteConfig.name,
+      images: [
+        {
+          url: imageUrl,
+          width: 1200,
+          height: 630,
+          alt: post.title,
+        },
+      ],
+      publishedTime: post.publishDate,
+      modifiedTime: post.publishDate,
+      authors: post.authors || [siteConfig.name],
+      tags: post.tags,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.description,
+      images: [imageUrl],
+      creator: siteConfig.twitterHandle,
+    },
+    alternates: {
+      canonical: `/blog/${slug}`,
+    },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
   };
 }
@@ -76,8 +126,27 @@ async function PostContent({ slug }: { slug: string }) {
     });
   };
 
+  // Generate JSON-LD structured data for this blog post
+  const blogPostSchema = getBlogPostSchema({
+    title: post.title,
+    description: post.description,
+    slug: post.slug,
+    publishDate: post.publishDate,
+    authors: post.authors,
+    coverImage: post.coverImage,
+    tags: post.tags,
+  });
+
   return (
     <article className="max-w-4xl mx-auto">
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(blogPostSchema),
+        }}
+      />
+      
       {/* Back Button */}
       <Link 
         href="/blog"
@@ -114,7 +183,9 @@ async function PostContent({ slug }: { slug: string }) {
         <div className="flex flex-wrap items-center gap-6 text-gray-600">
           <div className="flex items-center gap-2">
             <Calendar size={18} className="text-blue-600" />
-            <span className="font-medium">{formatDate(post.publishDate)}</span>
+            <time dateTime={post.publishDate} className="font-medium">
+              {formatDate(post.publishDate)}
+            </time>
           </div>
           
           {post.authors && post.authors.length > 0 && (
@@ -138,6 +209,7 @@ async function PostContent({ slug }: { slug: string }) {
             src={post.coverImage} 
             alt={post.title}
             className="w-full h-auto"
+            loading="eager"
           />
         </div>
       )}

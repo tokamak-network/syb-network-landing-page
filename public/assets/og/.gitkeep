@@ -1,0 +1,27 @@
+# OG Images Directory
+
+Place your Open Graph images here. Recommended specifications:
+
+## Required Images:
+- og-default.png (1200x630) - Default fallback image
+- og-home.png (1200x630) - Home page
+- og-about.png (1200x630) - About page
+- og-protocol.png (1200x630) - Protocol page
+- og-use-cases.png (1200x630) - Use Cases page
+- og-vision.png (1200x630) - Vision page
+- og-blog.png (1200x630) - Blog listing page
+- og-explorer.png (1200x630) - Explorer page
+
+## Specifications:
+- Dimensions: 1200 x 630 pixels (1.91:1 aspect ratio)
+- Format: PNG or JPG
+- Max file size: < 8MB (aim for < 500KB for performance)
+- Include your logo and clear branding
+- Use readable text that summarizes the page content
+
+## Tips:
+- Test with Facebook Sharing Debugger: https://developers.facebook.com/tools/debug/
+- Test with Twitter Card Validator: https://cards-dev.twitter.com/validator
+- Use high contrast for text visibility
+- Keep important content in the center (some platforms crop edges)
+
